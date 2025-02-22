@@ -24,15 +24,15 @@ GtkWidget *create_main_window(GtkApplication *app) {
     }
     gtk_window_set_application(GTK_WINDOW(window), app);
 
-    /* Connect buttons */
-    GObject *button = gtk_builder_get_object(builder, "button1");
-    if (button) g_signal_connect(button, "clicked", G_CALLBACK(print_hello), NULL);
+    /* /\* Connect buttons *\/ */
+    /* GObject *button = gtk_builder_get_object(builder, "button1"); */
+    /* if (button) g_signal_connect(button, "clicked", G_CALLBACK(print_hello), NULL); */
 
-    button = gtk_builder_get_object(builder, "button2");
-    if (button) g_signal_connect(button, "clicked", G_CALLBACK(print_hello), NULL);
+    /* button = gtk_builder_get_object(builder, "button2"); */
+    /* if (button) g_signal_connect(button, "clicked", G_CALLBACK(print_hello), NULL); */
 
-    button = gtk_builder_get_object(builder, "quit");
-    if (button) g_signal_connect_swapped(button, "clicked", G_CALLBACK(quit_cb), window);
+    /* button = gtk_builder_get_object(builder, "quit"); */
+    /* if (button) g_signal_connect_swapped(button, "clicked", G_CALLBACK(quit_cb), window); */
 
     g_object_unref(builder);
     return GTK_WIDGET(window);

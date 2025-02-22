@@ -1,35 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <object id="window" class="GtkWindow">
-    <property name="title">Grid</property>
+    <property name="title">Systune Settings</property>
+    <property name="default-width">800</property>
+    <property name="default-height">600</property>
     <child>
-      <object id="grid" class="GtkGrid">
+      <object id="main_box" class="GtkBox">
+        <property name="orientation">horizontal</property>
+        <property name="spacing">10</property>
+
+        <!-- Left Side Panel for Settings Options -->
         <child>
-          <object id="button1" class="GtkButton">
-            <property name="label">Button 1</property>
-            <layout>
-              <property name="column">0</property>
-              <property name="row">0</property>
-            </layout>
+          <object id="left_panel" class="GtkListBox">
+            <property name="selection-mode">single</property>
+            <property name="margin-start">10</property>
+            <property name="margin-end">10</property>
+            <property name="margin-top">10</property>
+            <property name="margin-bottom">10</property>
+
+            <!-- Display Settings -->
+            <child>
+              <object id="display_settings" class="GtkLabel">
+                <property name="label">Display</property>
+                <property name="margin-bottom">10</property>
+              </object>
+            </child>
+
+            <!-- Audio Controls -->
+            <child>
+              <object id="audio_controls" class="GtkLabel">
+                <property name="label">Audio</property>
+                <property name="margin-bottom">10</property>
+              </object>
+            </child>
+
+            <!-- Connectivity Options -->
+            <child>
+              <object id="connectivity_options" class="GtkLabel">
+                <property name="label">Connectivity</property>
+                <property name="margin-bottom">10</property>
+              </object>
+            </child>
+
+            <!-- Autostart Applications -->
+            <child>
+              <object id="autostart_apps" class="GtkLabel">
+                <property name="label">Autostart</property>
+                <property name="margin-bottom">10</property>
+              </object>
+            </child>
+
+            <!-- Security Settings -->
+            <child>
+              <object id="security_settings" class="GtkLabel">
+                <property name="label">Security</property>
+                <property name="margin-bottom">10</property>
+              </object>
+            </child>
+
+            <!-- Default Applications -->
+            <child>
+              <object id="default_apps" class="GtkLabel">
+                <property name="label">Default Apps</property>
+                <property name="margin-bottom">10</property>
+              </object>
+            </child>
+
+            <!-- User Permissions -->
+            <child>
+              <object id="user_permissions" class="GtkLabel">
+                <property name="label">User Permissions</property>
+                <property name="margin-bottom">10</property>
+              </object>
+            </child>
+
+            <!-- Keyboard Shortcuts -->
+            <child>
+              <object id="keyboard_shortcuts" class="GtkLabel">
+                <property name="label">Keyboard Shortcuts</property>
+                <property name="margin-bottom">10</property>
+              </object>
+            </child>
+
+            <!-- Configuration Files -->
+            <child>
+              <object id="config_files" class="GtkLabel">
+                <property name="label">Configuration Files</property>
+                <property name="margin-bottom">10</property>
+              </object>
+            </child>
           </object>
         </child>
+
+        <!-- Right Side Panel for Setting Details -->
         <child>
-          <object id="button2" class="GtkButton">
-            <property name="label">Button 2</property>
-            <layout>
-              <property name="column">1</property>
-              <property name="row">0</property>
-            </layout>
-          </object>
-        </child>
-        <child>
-          <object id="quit" class="GtkButton">
-            <property name="label">Quit</property>
-            <layout>
-              <property name="column">0</property>
-              <property name="row">1</property>
-              <property name="column-span">2</property>
-            </layout>
+          <object id="right_panel" class="GtkStack">
+            <property name="margin-start">10</property>
+            <property name="margin-end">10</property>
+            <property name="margin-top">10</property>
+            <property name="margin-bottom">10</property>
+
+            <!-- Display Settings Page -->
+            <child>
+              <object id="display_page" class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object id="display_label" class="GtkLabel">
+                    <property name="label">Display Settings: Resolution, Brightness, Themes</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
           </object>
         </child>
       </object>
