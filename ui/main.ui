@@ -12,7 +12,6 @@
         <property name="orientation">horizontal</property>
         <property name="spacing">10</property>
         <child>
-
           <object class="GtkBox">
             <property name="orientation">vertical</property>
             <child>
@@ -34,13 +33,13 @@
                     <property name="margin-bottom">5</property>
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
+                    <property name="name">display_settings</property>
                     <property name="valign">start</property>
                     <property name="xalign">0.0</property>
                     <accessibility>
                       <property name="sort">other</property>
                       <property name="value-min">-0.1</property>
                     </accessibility>
-                    <property name="name">display_settings</property>
                   </object>
                 </child>
                 <child>
@@ -49,8 +48,8 @@
                     <property name="margin-bottom">5</property>
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
-                    <property name="xalign">0.0</property>
                     <property name="name">audio_controls</property>
+                    <property name="xalign">0.0</property>
                   </object>
                 </child>
                 <child>
@@ -59,8 +58,8 @@
                     <property name="margin-bottom">5</property>
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
-                    <property name="xalign">0.0</property>
                     <property name="name">connectivity_options</property>
+                    <property name="xalign">0.0</property>
                   </object>
                 </child>
                 <child>
@@ -69,8 +68,8 @@
                     <property name="margin-bottom">5</property>
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
-                    <property name="xalign">0.0</property>
                     <property name="name">autostart_apps</property>
+                    <property name="xalign">0.0</property>
                   </object>
                 </child>
                 <child>
@@ -79,8 +78,8 @@
                     <property name="margin-bottom">5</property>
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
-                    <property name="xalign">0.0</property>
                     <property name="name">security_settings</property>
+                    <property name="xalign">0.0</property>
                   </object>
                 </child>
                 <child>
@@ -89,8 +88,8 @@
                     <property name="margin-bottom">5</property>
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
-                    <property name="xalign">0.0</property>
                     <property name="name">default_apps</property>
+                    <property name="xalign">0.0</property>
                   </object>
                 </child>
                 <child>
@@ -99,8 +98,8 @@
                     <property name="margin-bottom">5</property>
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
-                    <property name="xalign">0.0</property>
                     <property name="name">user_permissions</property>
+                    <property name="xalign">0.0</property>
                   </object>
                 </child>
                 <child>
@@ -109,8 +108,8 @@
                     <property name="margin-bottom">5</property>
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
-                    <property name="xalign">0.0</property>
                     <property name="name">keyboard_shortcuts</property>
+                    <property name="xalign">0.0</property>
                   </object>
                 </child>
                 <child>
@@ -119,10 +118,13 @@
                     <property name="margin-bottom">5</property>
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
-                    <property name="xalign">0.0</property>
                     <property name="name">config_files</property>
+                    <property name="xalign">0.0</property>
                   </object>
                 </child>
+                <style>
+                  <class name="leftbar"/>
+                </style>
               </object>
             </child>
           </object>
