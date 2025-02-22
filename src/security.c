@@ -15,15 +15,34 @@ void enable_firewall() { execute_command("pkexec ufw enable"); }
 
 void disable_firewall() { execute_command("pkexec ufw disable"); }
 
+static void on_ssh_switch_activated(GObject *object, GParamSpec *pspec,
+                                         gpointer user_data) {
+  GtkSwitch *ssh_switch = GTK_SWITCH(object);
+  if (gtk_switch_get_active(ssh_switch)) {
+    execute_command("pkexec ufw allow ssh");
+  } else {
+    execute_command("pkexec ufw deny ssh");
+  }
+}
+
+static void on_vnc_switch_activated(GObject *object, GParamSpec *pspec,
+                                         gpointer user_data) {
+  GtkSwitch *vnc_switch = GTK_SWITCH(object);
+  if (gtk_switch_get_active(vnc_switch)) {
+    execute_command("pkexec ufw allow vnc");
+  } else {
+    execute_command("pkexec ufw deny vnc");
+  }
+}
+
 static void on_firewall_switch_activated(GObject *object, GParamSpec *pspec,
                                          gpointer user_data) {
   AdwSwitchRow *switch_row = ADW_SWITCH_ROW(object);
 
   if (adw_switch_row_get_active(switch_row)) {
-    // Enable the firewall
+
     enable_firewall();
   } else {
-    // Disable the firewall
     disable_firewall();
   }
 }
@@ -55,6 +74,18 @@ static void security_to_stack(GtkStack *stack) {
   // Connect the switch's "notify::active" signal to the callback
   g_signal_connect(firewall_switch, "notify::active",
                    G_CALLBACK(on_firewall_switch_activated), NULL);
+
+
+  // SSH
+  GtkSwitch *ssh_switch = GTK_SWITCH(
+      gtk_builder_get_object(security_builder, "ssh_switch"));
+  g_signal_connect(ssh_switch, "notify::active",
+                   G_CALLBACK(on_ssh_switch_activated), NULL);
+
+  GtkSwitch *vnc_switch = GTK_SWITCH(
+      gtk_builder_get_object(security_builder, "vnc_switch"));
+  g_signal_connect(vnc_switch, "notify::active",
+                   G_CALLBACK(on_vnc_switch_activated), NULL);
 
   gtk_stack_add_named(stack, SecurityPage, "security_page");
   g_object_unref(security_builder);

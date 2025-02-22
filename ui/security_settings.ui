@@ -33,7 +33,7 @@
               <object class="AdwActionRow">
                 <property name="title">Allow SSH Access</property>
                 <child>
-                  <object class="GtkSwitch">
+                  <object class="GtkSwitch" id="ssh_switch">
                     <property name="valign">center</property>
                   </object>
                 </child>
@@ -41,10 +41,10 @@
             </child>
 
             <child>
-              <object class="AdwActionRow">
+              <object class="AdwActionRow" id="remote_switch">
                 <property name="title">Allow Remote Desktop</property>
                 <child>
-                  <object class="GtkSwitch">
+                  <object class="GtkSwitch" id="vnc_switch">
                     <property name="valign">center</property>
                   </object>
                 </child>
