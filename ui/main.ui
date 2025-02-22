@@ -13,10 +13,14 @@
         <property name="spacing">10</property>
         <child>
           <object class="GtkListBox" id="left_panel">
+            <property name="margin-bottom">5</property>
+            <property name="margin-end">5</property>
+            <property name="margin-start">5</property>
+            <property name="margin-top">5</property>
             <property name="selection-mode">single</property>
             <property name="width-request">180</property>
             <child>
-              <object class="GtkEntry"/>
+              <object class="GtkSearchEntry" id="search_bar"/>
             </child>
             <child>
               <object class="GtkLabel" id="display_settings">
@@ -151,5 +155,6 @@
         </child>
       </object>
     </child>
+    <style/>
   </object>
 </interface>
