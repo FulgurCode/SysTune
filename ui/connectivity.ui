@@ -1,37 +1,185 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!-- Created with Cambalache 0.94.1 -->
 <interface>
-  <!-- interface-name connectivity.ui -->
   <requires lib="gtk" version="4.12"/>
+
   <object class="GtkBox" id="connectivity_page">
-    <property name="margin-bottom">10</property>
-    <property name="margin-end">10</property>
-    <property name="margin-start">10</property>
-    <property name="margin-top">10</property>
+    <property name="margin-bottom">24</property>
+    <property name="margin-end">24</property>
+    <property name="margin-start">24</property>
+    <property name="margin-top">24</property>
     <property name="orientation">vertical</property>
-    <property name="spacing">10</property>
+    <property name="spacing">24</property>
+
+    <!-- WiFi Section -->
     <child>
-      <object class="GtkLabel">
-        <property name="halign">start</property>
-        <property name="label">CONNECTIVITY</property>
+      <object class="AdwPreferencesGroup">
+        <property name="title">Wi-Fi</property>
+        <property name="description">Configure wireless network settings</property>
+
+        <child>
+          <object class="AdwSwitchRow" id="wifi_switch">
+            <property name="title">Wi-Fi</property>
+            <property name="subtitle">Enable or disable wireless networking</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title">Current Network</property>
+            <property name="subtitle">MyHomeNetwork</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">network-wireless-signal-excellent-symbolic</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton">
+                <property name="icon-name">emblem-system-symbolic</property>
+                <property name="valign">center</property>
+                <property name="tooltip-text">Network settings</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkListBox" id="wifi_networks_list">
+            <property name="selection-mode">none</property>
+            <property name="css-classes">boxed-list</property>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Neighbor's Network</property>
+                <property name="subtitle">Secured with WPA</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon-name">network-wireless-signal-good-symbolic</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Guest Network</property>
+                <property name="subtitle">Secured with WPA</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon-name">network-wireless-signal-ok-symbolic</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
+
+    <!-- Bluetooth Section -->
     <child>
-      <object class="GtkSwitch">
-        <property name="halign">start</property>
-        <property name="active">true</property>
+      <object class="AdwPreferencesGroup">
+        <property name="title">Bluetooth</property>
+        <property name="description">Manage Bluetooth connections and devices</property>
+
+        <child>
+          <object class="AdwSwitchRow" id="bluetooth_switch">
+            <property name="title">Bluetooth</property>
+            <property name="subtitle">Enable or disable Bluetooth</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title">Visibility</property>
+            <property name="subtitle">Make your device discoverable to others</property>
+            <child>
+              <object class="GtkSwitch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkListBox" id="bluetooth_devices_list">
+            <property name="selection-mode">none</property>
+            <property name="css-classes">boxed-list</property>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">My Headphones</property>
+                <property name="subtitle">Connected</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon-name">audio-headphones-symbolic</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="icon-name">emblem-system-symbolic</property>
+                    <property name="valign">center</property>
+                    <property name="tooltip-text">Device settings</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
+
+    <!-- Other Network Options -->
     <child>
-      <object class="GtkButton">
-        <property name="halign">start</property>
-        <property name="label">Wi-Fi Settings</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkButton">
-        <property name="halign">start</property>
-        <property name="label">Bluetooth Settings</property>
+      <object class="AdwPreferencesGroup">
+        <property name="title">Other Networks</property>
+        <property name="description">Configure additional network settings</property>
+
+        <child>
+          <object class="AdwExpanderRow">
+            <property name="title">VPN</property>
+            <property name="subtitle">Virtual Private Network</property>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Enable VPN</property>
+                <child>
+                  <object class="GtkSwitch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">VPN Profile</property>
+                <child>
+                  <object class="GtkButton">
+                    <property name="label">Configure</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title">Network Proxy</property>
+            <property name="subtitle">Configure system proxy settings</property>
+            <child>
+              <object class="GtkButton">
+                <property name="label">Configure</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
   </object>

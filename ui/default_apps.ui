@@ -1,29 +1,99 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <interface>
   <requires lib="gtk" version="4.12"/>
+
   <object class="GtkBox" id="default_apps_page">
-    <property name="margin-bottom">10</property>
-    <property name="margin-end">10</property>
-    <property name="margin-start">10</property>
-    <property name="margin-top">10</property>
+    <property name="margin-bottom">24</property>
+    <property name="margin-end">24</property>
+    <property name="margin-start">24</property>
+    <property name="margin-top">24</property>
     <property name="orientation">vertical</property>
-    <property name="spacing">10</property>
+    <property name="spacing">24</property>
+
     <child>
-      <object class="GtkLabel">
-        <property name="halign">start</property>
-        <property name="label">DEFAULT APPLICATIONS</property>
+      <object class="AdwPreferencesGroup">
+        <property name="title">Web Browser</property>
+        <property name="description">Choose your default web browser</property>
+
+        <child>
+          <object class="AdwComboRow" id="browser_combo">
+            <property name="title">Default Browser</property>
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item>Firefox</item>
+                  <item>Chrome</item>
+                  <item>Chromium</item>
+                  <item>Opera</item>
+                  <item>Custom...</item>
+                </items>
+              </object>
+            </property>
+          </object>
+        </child>
       </object>
     </child>
+
     <child>
-      <object class="GtkComboBoxText">
-        <property name="halign">start</property>
-        <property name="tooltip-text">Choose default browser</property>
+      <object class="AdwPreferencesGroup">
+        <property name="title">Text Editor</property>
+        <property name="description">Choose your default text editor</property>
+
+        <child>
+          <object class="AdwComboRow" id="editor_combo">
+            <property name="title">Default Editor</property>
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item>Visual Studio Code</item>
+                  <item>Sublime Text</item>
+                  <item>GNOME Text Editor</item>
+                  <item>Vim</item>
+                  <item>Custom...</item>
+                </items>
+              </object>
+            </property>
+          </object>
+        </child>
       </object>
     </child>
+
     <child>
-      <object class="GtkComboBoxText">
-        <property name="halign">start</property>
-        <property name="tooltip-text">Choose default text editor</property>
+      <object class="AdwPreferencesGroup">
+        <property name="title">Other Applications</property>
+        <property name="description">Set default applications for various file types</property>
+
+        <child>
+          <object class="AdwComboRow" id="terminal_combo">
+            <property name="title">Terminal Emulator</property>
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item>GNOME Terminal</item>
+                  <item>Konsole</item>
+                  <item>Alacritty</item>
+                  <item>Custom...</item>
+                </items>
+              </object>
+            </property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwComboRow" id="file_manager_combo">
+            <property name="title">File Manager</property>
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item>GNOME Files</item>
+                  <item>Dolphin</item>
+                  <item>Thunar</item>
+                  <item>Custom...</item>
+                </items>
+              </object>
+            </property>
+          </object>
+        </child>
       </object>
     </child>
   </object>
