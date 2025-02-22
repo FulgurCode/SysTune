@@ -40,6 +40,7 @@
                       <property name="sort">other</property>
                       <property name="value-min">-0.1</property>
                     </accessibility>
+                    <property name="name">display_settings</property>
                   </object>
                 </child>
                 <child>
@@ -49,6 +50,7 @@
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
                     <property name="xalign">0.0</property>
+                    <property name="name">audio_controls</property>
                   </object>
                 </child>
                 <child>
@@ -58,6 +60,7 @@
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
                     <property name="xalign">0.0</property>
+                    <property name="name">connectivity_options</property>
                   </object>
                 </child>
                 <child>
@@ -67,6 +70,7 @@
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
                     <property name="xalign">0.0</property>
+                    <property name="name">autostart_apps</property>
                   </object>
                 </child>
                 <child>
@@ -76,6 +80,7 @@
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
                     <property name="xalign">0.0</property>
+                    <property name="name">security_settings</property>
                   </object>
                 </child>
                 <child>
@@ -85,6 +90,7 @@
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
                     <property name="xalign">0.0</property>
+                    <property name="name">default_apps</property>
                   </object>
                 </child>
                 <child>
@@ -94,6 +100,7 @@
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
                     <property name="xalign">0.0</property>
+                    <property name="name">user_permissions</property>
                   </object>
                 </child>
                 <child>
@@ -103,6 +110,7 @@
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
                     <property name="xalign">0.0</property>
+                    <property name="name">keyboard_shortcuts</property>
                   </object>
                 </child>
                 <child>
@@ -112,6 +120,7 @@
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
                     <property name="xalign">0.0</property>
+                    <property name="name">config_files</property>
                   </object>
                 </child>
               </object>
@@ -131,15 +140,6 @@
                 <child>
                   <object class="GtkLabel" id="display_label">
                     <property name="label">Display Settings: Resolution, Brightness, Themes, yeah</property>
-                    <child>
-                      <object class="GtkText"/>
-                    </child>
-                    <child>
-                      <object class="GtkSearchEntry"/>
-                    </child>
-                    <child>
-                      <object class="GtkSearchEntry"/>
-                    </child>
                   </object>
                 </child>
               </object>

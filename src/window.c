@@ -8,6 +8,18 @@ static void quit_cb(GtkWindow *window) {
     gtk_window_close(window);
 }
 
+static void on_setting_selected(GtkListBox *listbox, GtkListBoxRow *row, gpointer user_data) {
+    if (row == NULL) return; // Ensure the row is valid
+
+    // Get the child widget of the row (e.g., the GtkLabel)
+    GtkWidget *child = gtk_list_box_row_get_child(row);
+    if (child == NULL) return; // Ensure the child exists
+
+    // Get the name of the child widget
+    const char *name = gtk_widget_get_name(child);
+    g_print("%s", name);
+}
+
 GtkWidget *create_main_window(GtkApplication *app) {
     /* Load UI from file */
     GtkBuilder *builder = gtk_builder_new();
@@ -18,21 +30,16 @@ GtkWidget *create_main_window(GtkApplication *app) {
 
     /* Get main window */
     GObject *window = gtk_builder_get_object(builder, "window");
+    GtkListBox *left_panel = GTK_LIST_BOX(gtk_builder_get_object(builder, "left_panel"));
+    GtkStack *right_panel = GTK_STACK(gtk_builder_get_object(builder, "right_panel"));
+
+    g_signal_connect(left_panel, "row-activated", G_CALLBACK(on_setting_selected), right_panel);
+
     if (!window) {
         g_printerr("Failed to find 'window' in UI file\n");
         return NULL;
     }
     gtk_window_set_application(GTK_WINDOW(window), app);
-
-    /* /\* Connect buttons *\/ */
-    /* GObject *button = gtk_builder_get_object(builder, "button1"); */
-    /* if (button) g_signal_connect(button, "clicked", G_CALLBACK(print_hello), NULL); */
-
-    /* button = gtk_builder_get_object(builder, "button2"); */
-    /* if (button) g_signal_connect(button, "clicked", G_CALLBACK(print_hello), NULL); */
-
-    /* button = gtk_builder_get_object(builder, "quit"); */
-    /* if (button) g_signal_connect_swapped(button, "clicked", G_CALLBACK(quit_cb), window); */
 
     g_object_unref(builder);
     return GTK_WIDGET(window);
