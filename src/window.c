@@ -1,4 +1,6 @@
 #include "window/window.h"
+#include "option/audio.h"
+#include "option/display.h"
 
 static void print_hello(GtkWidget *widget, gpointer data) {
   g_print("Hello World\n");
@@ -19,75 +21,11 @@ static void on_setting_selected(GtkListBox *listbox, GtkListBoxRow *row,
 
   // Get the name of the child widget
   const char *name = gtk_widget_get_name(child);
-  g_print("\n%s", name);
+
   if (g_strcmp0(name, "audio_controls") == 0) {
-    // Check if audio_page is already loaded
-    GtkWidget *audio_page = gtk_stack_get_child_by_name(stack, "audio_page");
-    if (!audio_page) {
-      // Load audio.ui and add to the stack
-      GtkBuilder *audio_builder = gtk_builder_new_from_file("ui/audio.ui");
-      if (audio_builder == NULL) {
-        g_printerr("Failed to load audio.ui\n");
-        return;
-      }
-
-      audio_page =
-          GTK_WIDGET(gtk_builder_get_object(audio_builder, "audio_page"));
-      if (audio_page == NULL) {
-        g_printerr("Failed to get audio_page from audio.ui\n");
-        g_object_unref(audio_builder);
-        return;
-      }
-
-      gtk_stack_add_named(stack, audio_page, "audio_page");
-      g_object_unref(audio_builder);
-    }
-    // Switch to audio_page
-    gtk_stack_set_visible_child_name(stack, "audio_page");
+    change_panel_to_audio(user_data);
   } else if (g_strcmp0(name, "display_settings") == 0) {
-    g_print("displayyy");
-    GtkWidget *display_page =
-        gtk_stack_get_child_by_name(stack, "display_page");
-    if (!display_page) {
-      // Load display.ui and add to the stack
-      GtkBuilder *display_builder = gtk_builder_new_from_file("ui/display.ui");
-      if (display_builder == NULL) {
-        g_printerr("Failed to load display.ui\n");
-        return;
-      }
-
-      display_page =
-          GTK_WIDGET(gtk_builder_get_object(display_builder, "display_page"));
-      if (display_page == NULL) {
-        g_printerr("Failed to get display_page from display.ui\n");
-        g_object_unref(display_builder);
-        return;
-      }
-
-      gtk_stack_add_named(stack, display_page, "display_page");
-      g_object_unref(display_builder);
-
-    }
-    // Switch to display_page
-    gtk_stack_set_visible_child_name(stack, "display_page");
-  } else if (g_strcmp0(name, "connectivity_options") == 0) {
-    GtkWidget *connectivity_page = gtk_stack_get_child_by_name(stack, "connectivity_page");
-    if (!connectivity_page) {
-    GtkBuilder *connectivity_builder = gtk_builder_new_from_file("ui/connectivity.ui");
-    if (connectivity_builder == NULL) {
-        g_printerr("Failed to load connectivity.ui\n");
-        return;
-    }
-    connectivity_page = GTK_WIDGET(gtk_builder_get_object(connectivity_builder, "connectivity_page"));
-    if (connectivity_page == NULL) {
-        g_printerr("Failed to get connectivity_page from connectivity.ui\n");
-        g_object_unref(connectivity_builder);
-        return;
-    }
-    gtk_stack_add_named(stack, connectivity_page, "connectivity_page");
-    g_object_unref(connectivity_builder);
-    }
-    gtk_stack_set_visible_child_name(stack, "connectivity_page");
+    change_panel_to_display(user_data);
   }
 }
 
