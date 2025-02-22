@@ -1,6 +1,13 @@
 #include "window/window.h"
 #include "option/audio.h"
 #include "option/display.h"
+#include "option/connectivity.h"
+#include "option/autostart.h"
+#include "option/security.h"
+#include "option/default_app.h"
+#include "option/user_permissions.h"
+#include "option/keyboard_shortcuts.h"
+#include "option/config.h"
 
 static void print_hello(GtkWidget *widget, gpointer data) {
   g_print("Hello World\n");
@@ -26,6 +33,20 @@ static void on_setting_selected(GtkListBox *listbox, GtkListBoxRow *row,
     change_panel_to_audio(user_data);
   } else if (g_strcmp0(name, "display_settings") == 0) {
     change_panel_to_display(user_data);
+  } else if (g_strcmp0(name, "connectivity_options") == 0) {
+    change_panel_to_connectivity(user_data);
+  }else if (g_strcmp0(name, "autostart_apps") == 0) {
+    change_panel_to_autostart(user_data);
+  }else if (g_strcmp0(name, "security_settings") == 0) {
+    change_panel_to_security(user_data);
+  }else if (g_strcmp0(name, "default_apps") == 0) {
+    change_panel_to_default_apps(user_data);
+  }else if (g_strcmp0(name, "user_permissions") == 0) {
+    change_panel_to_user_permissions(user_data);
+  }else if (g_strcmp0(name, "keyboard_shortcuts") == 0) {
+    change_panel_to_keyboard_shortcuts(user_data);
+  }else if (g_strcmp0(name, "config_files") == 0) {
+    change_panel_to_config(user_data);
   }
 }
 
