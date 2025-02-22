@@ -17,6 +17,7 @@ build: $(TARGET)
 
 # Rule to build the target executable
 $(TARGET):
+	rm -f $(TARGET)
 	@mkdir -p $(dir $(TARGET))
 	$(CC) $(CFLAGS) -Iinclude -o $@ $^ $(LDFLAGS) $(SRCS)
 
