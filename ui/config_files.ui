@@ -1,27 +1,96 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <interface>
   <requires lib="gtk" version="4.12"/>
+
   <object class="GtkBox" id="config_files_page">
-    <property name="margin-bottom">10</property>
-    <property name="margin-end">10</property>
-    <property name="margin-start">10</property>
-    <property name="margin-top">10</property>
+    <property name="margin-bottom">24</property>
+    <property name="margin-end">24</property>
+    <property name="margin-start">24</property>
+    <property name="margin-top">24</property>
     <property name="orientation">vertical</property>
-    <property name="spacing">10</property>
+    <property name="spacing">24</property>
+
     <child>
-      <object class="GtkLabel">
-        <property name="halign">start</property>
-        <property name="label">CONFIGURATION FILES</property>
+      <object class="AdwPreferencesGroup">
+        <property name="title">System Configuration Files</property>
+        <property name="description">Manage and edit system configuration files</property>
+
+        <child>
+          <object class="GtkListBox">
+            <property name="selection-mode">none</property>
+            <property name="css-classes">boxed-list</property>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Desktop Environment</property>
+                <property name="subtitle">/etc/environment</property>
+                <child>
+                  <object class="GtkButton">
+                    <property name="icon-name">document-edit-symbolic</property>
+                    <property name="valign">center</property>
+                    <property name="tooltip-text">Edit file</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="icon-name">document-save-symbolic</property>
+                    <property name="valign">center</property>
+                    <property name="tooltip-text">Backup file</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title">Network Configuration</property>
+                <property name="subtitle">/etc/network/interfaces</property>
+                <child>
+                  <object class="GtkButton">
+                    <property name="icon-name">document-edit-symbolic</property>
+                    <property name="valign">center</property>
+                    <property name="tooltip-text">Edit file</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="icon-name">document-save-symbolic</property>
+                    <property name="valign">center</property>
+                    <property name="tooltip-text">Backup file</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
+
     <child>
-      <object class="GtkButton">
-        <property name="label">Select Config File</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkButton">
-        <property name="label">Edit Config</property>
+      <object class="AdwPreferencesGroup">
+        <property name="title">Actions</property>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <property name="spacing">12</property>
+            <property name="margin-top">12</property>
+
+            <child>
+              <object class="GtkButton">
+                <property name="label">Open Config Directory</property>
+                <property name="icon-name">folder-symbolic</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton">
+                <property name="label">Create Backup</property>
+                <property name="icon-name">drive-harddisk-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
   </object>
