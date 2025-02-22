@@ -24,12 +24,8 @@
           <object class="AdwComboRow" id="output_device">
             <property name="title">Output Device</property>
             <property name="model">
-              <object class="GtkStringList">
+              <object class="GtkStringList" id="audio_sink_list">
                 <items>
-                  <item>Built-in Audio</item>
-                  <item>HDMI Output</item>
-                  <item>USB Headphones</item>
-                  <item>Bluetooth Speaker</item>
                 </items>
               </object>
             </property>
