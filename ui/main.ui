@@ -131,12 +131,20 @@
         </child>
         <child>
           <object class="GtkStack" id="right_panel">
+            <property name="focusable">True</property>
+            <property name="has-tooltip">True</property>
+            <property name="hexpand">True</property>
+            <property name="hexpand-set">True</property>
             <property name="margin-bottom">10</property>
             <property name="margin-end">10</property>
             <property name="margin-start">10</property>
             <property name="margin-top">10</property>
+            <property name="transition-type">crossfade</property>
             <child>
               <object class="GtkBox" id="display_page">
+                <property name="hexpand">True</property>
+                <property name="margin-bottom">-2</property>
+                <property name="margin-start">1</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">10</property>
                 <child>
