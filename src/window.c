@@ -9,6 +9,7 @@ static void quit_cb(GtkWindow *window) {
 }
 
 static void on_setting_selected(GtkListBox *listbox, GtkListBoxRow *row, gpointer user_data) {
+  GtkStack *stack = GTK_STACK(user_data);
     if (row == NULL) return; // Ensure the row is valid
 
     // Get the child widget of the row (e.g., the GtkLabel)
@@ -17,7 +18,30 @@ static void on_setting_selected(GtkListBox *listbox, GtkListBoxRow *row, gpointe
 
     // Get the name of the child widget
     const char *name = gtk_widget_get_name(child);
-    g_print("%s", name);
+    if (g_strcmp0(name, "audio_controls") == 0) {
+        // Check if audio_page is already loaded
+        GtkWidget *audio_page = gtk_stack_get_child_by_name(stack, "audio_page");
+        if (!audio_page) {
+            // Load audio.ui and add to the stack
+            GtkBuilder *audio_builder = gtk_builder_new_from_file("ui/audio.ui");
+            if (audio_builder == NULL) {
+                g_printerr("Failed to load audio.ui\n");
+                return;
+            }
+
+            audio_page = GTK_WIDGET(gtk_builder_get_object(audio_builder, "audio_page"));
+            if (audio_page == NULL) {
+                g_printerr("Failed to get audio_page from audio.ui\n");
+                g_object_unref(audio_builder);
+                return;
+            }
+
+            gtk_stack_add_named(stack, audio_page, "audio_page");
+            g_object_unref(audio_builder);
+        }
+        // Switch to audio_page
+        gtk_stack_set_visible_child_name(stack, "audio_page");
+    }
 }
 
 GtkWidget *create_main_window(GtkApplication *app) {
