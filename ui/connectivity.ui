@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.94.1 -->
+<interface>
+  <!-- interface-name connectivity.ui -->
+  <requires lib="gtk" version="4.12"/>
+  <object class="GtkBox" id="connectivity_page">
+    <property name="margin-bottom">10</property>
+    <property name="margin-end">10</property>
+    <property name="margin-start">10</property>
+    <property name="margin-top">10</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">10</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="halign">start</property>
+        <property name="label">CONNECTIVITY</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSwitch">
+        <property name="halign">start</property>
+        <property name="active">true</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton">
+        <property name="halign">start</property>
+        <property name="label">Wi-Fi Settings</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton">
+        <property name="halign">start</property>
+        <property name="label">Bluetooth Settings</property>
+      </object>
+    </child>
+  </object>
+</interface>

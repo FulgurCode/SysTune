@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<interface>
+  <requires lib="gtk" version="4.12"/>
+  <object class="GtkBox" id="config_files_page">
+    <property name="margin-bottom">10</property>
+    <property name="margin-end">10</property>
+    <property name="margin-start">10</property>
+    <property name="margin-top">10</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">10</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="halign">start</property>
+        <property name="label">CONFIGURATION FILES</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton">
+        <property name="label">Select Config File</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton">
+        <property name="label">Edit Config</property>
+      </object>
+    </child>
+  </object>
+</interface>

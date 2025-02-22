@@ -19,7 +19,7 @@ static void on_setting_selected(GtkListBox *listbox, GtkListBoxRow *row,
 
   // Get the name of the child widget
   const char *name = gtk_widget_get_name(child);
-  g_print("changed %s", name);
+  g_print("\n%s", name);
   if (g_strcmp0(name, "audio_controls") == 0) {
     // Check if audio_page is already loaded
     GtkWidget *audio_page = gtk_stack_get_child_by_name(stack, "audio_page");
@@ -70,8 +70,27 @@ static void on_setting_selected(GtkListBox *listbox, GtkListBoxRow *row,
     }
     // Switch to display_page
     gtk_stack_set_visible_child_name(stack, "display_page");
+  } else if (g_strcmp0(name, "connectivity_options") == 0) {
+    GtkWidget *connectivity_page = gtk_stack_get_child_by_name(stack, "connectivity_page");
+    if (!connectivity_page) {
+    GtkBuilder *connectivity_builder = gtk_builder_new_from_file("ui/connectivity.ui");
+    if (connectivity_builder == NULL) {
+        g_printerr("Failed to load connectivity.ui\n");
+        return;
+    }
+    connectivity_page = GTK_WIDGET(gtk_builder_get_object(connectivity_builder, "connectivity_page"));
+    if (connectivity_page == NULL) {
+        g_printerr("Failed to get connectivity_page from connectivity.ui\n");
+        g_object_unref(connectivity_builder);
+        return;
+    }
+    gtk_stack_add_named(stack, connectivity_page, "connectivity_page");
+    g_object_unref(connectivity_builder);
+    }
+    gtk_stack_set_visible_child_name(stack, "connectivity_page");
   }
 }
+
 
 GtkWidget *create_main_window(GtkApplication *app) {
   /* Load UI from file */
