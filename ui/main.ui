@@ -12,100 +12,108 @@
         <property name="orientation">horizontal</property>
         <property name="spacing">10</property>
         <child>
-          <object class="GtkListBox" id="left_panel">
-            <property name="margin-bottom">5</property>
-            <property name="margin-end">5</property>
-            <property name="margin-start">5</property>
-            <property name="margin-top">5</property>
-            <property name="selection-mode">single</property>
-            <property name="width-request">180</property>
+
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkSearchEntry" id="search_bar"/>
-            </child>
-            <child>
-              <object class="GtkLabel" id="display_settings">
-                <property name="label">Display</property>
+              <object class="GtkSearchEntry">
                 <property name="margin-bottom">5</property>
+                <property name="margin-end">5</property>
                 <property name="margin-start">5</property>
                 <property name="margin-top">5</property>
-                <property name="valign">start</property>
-                <property name="xalign">0.0</property>
-                <accessibility>
-                  <property name="sort">other</property>
-                  <property name="value-min">-0.1</property>
-                </accessibility>
               </object>
             </child>
             <child>
-              <object class="GtkLabel" id="audio_controls">
-                <property name="label">Audio</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-start">5</property>
-                <property name="margin-top">5</property>
-                <property name="xalign">0.0</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="connectivity_options">
-                <property name="label">Connectivity</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-start">5</property>
-                <property name="margin-top">5</property>
-                <property name="xalign">0.0</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="autostart_apps">
-                <property name="label">Autostart</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-start">5</property>
-                <property name="margin-top">5</property>
-                <property name="xalign">0.0</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="security_settings">
-                <property name="label">Security</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-start">5</property>
-                <property name="margin-top">5</property>
-                <property name="xalign">0.0</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="default_apps">
-                <property name="label">Default Apps</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-start">5</property>
-                <property name="margin-top">5</property>
-                <property name="xalign">0.0</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="user_permissions">
-                <property name="label">User Permissions</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-start">5</property>
-                <property name="margin-top">5</property>
-                <property name="xalign">0.0</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="keyboard_shortcuts">
-                <property name="label">Keyboard Shortcuts</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-start">5</property>
-                <property name="margin-top">5</property>
-                <property name="xalign">0.0</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="config_files">
-                <property name="label">Configuration Files</property>
-                <property name="margin-bottom">5</property>
-                <property name="margin-start">5</property>
-                <property name="margin-top">5</property>
-                <property name="xalign">0.0</property>
+              <object class="GtkListBox" id="left_panel">
+                <property name="selection-mode">single</property>
+                <property name="vexpand">True</property>
+                <property name="width-request">180</property>
+                <child>
+                  <object class="GtkLabel" id="display_settings">
+                    <property name="label">Display</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-top">5</property>
+                    <property name="valign">start</property>
+                    <property name="xalign">0.0</property>
+                    <accessibility>
+                      <property name="sort">other</property>
+                      <property name="value-min">-0.1</property>
+                    </accessibility>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="audio_controls">
+                    <property name="label">Audio</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-top">5</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="connectivity_options">
+                    <property name="label">Connectivity</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-top">5</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="autostart_apps">
+                    <property name="label">Autostart</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-top">5</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="security_settings">
+                    <property name="label">Security</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-top">5</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="default_apps">
+                    <property name="label">Default Apps</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-top">5</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="user_permissions">
+                    <property name="label">User Permissions</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-top">5</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="keyboard_shortcuts">
+                    <property name="label">Keyboard Shortcuts</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-top">5</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="config_files">
+                    <property name="label">Configuration Files</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-top">5</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
@@ -135,21 +143,6 @@
                   </object>
                 </child>
               </object>
-            </child>
-            <child>
-              <object class="GtkSearchEntry"/>
-            </child>
-            <child>
-              <object class="GtkEntry"/>
-            </child>
-            <child>
-              <object class="GtkSearchEntry"/>
-            </child>
-            <child>
-              <object class="GtkSearchEntry"/>
-            </child>
-            <child>
-              <object class="GtkEntry"/>
             </child>
           </object>
         </child>
