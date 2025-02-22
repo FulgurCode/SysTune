@@ -19,7 +19,7 @@
     <child>
       <object class="GtkScale" id="slider">
         <property name="adjustment">
-          <object class="GtkAdjustment" id="adjustment_slider">>
+          <object class="GtkAdjustment" id="adjustment_slider">
             <property name="lower">1</property>
             <property name="upper">100</property>
             <property name="value">50</property>
