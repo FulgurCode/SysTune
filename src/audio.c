@@ -42,6 +42,19 @@ void get_audio_sources(GtkStringList *sink_list) {
   }
 }
 
+// Callback function for when the slider value changes
+static void on_volume_changed(GtkRange *range, gpointer user_data) {
+  // Get the current value of the slider
+  int volume = (int)gtk_range_get_value(range);
+
+  // adjust the system volume using a command-line tool (e.g., `amixer` or
+  // `pactl`)
+  char command[256];
+  snprintf(command, sizeof(command),
+           "pactl set-sink-volume @DEFAULT_SINK@ %d%%", volume);
+  system(command);
+}
+
 // Callback function when output device selection changes
 void on_output_device_changed(AdwComboRow *combo, gpointer user_data) {
   GtkStringList *sink_list = GTK_STRING_LIST(adw_combo_row_get_model(combo));
@@ -88,6 +101,14 @@ static void audio_to_stack(GtkStack *stack) {
   // Connect the selection change event
   g_signal_connect(combo, "notify::selected",
                    G_CALLBACK(on_output_device_changed), NULL);
+
+  // Retrieve the GtkScale from the builder
+  GtkWidget *slider =
+      GTK_WIDGET(gtk_builder_get_object(audio_builder, "adjustment_slider"));
+
+  // Connect the "value-changed" signal to the callback function
+  g_signal_connect(slider, "value-changed", G_CALLBACK(on_volume_changed),
+                   NULL);
 
   gtk_stack_add_named(stack, AudioPage, "audio_page");
   g_object_unref(audio_builder);
