@@ -21,6 +21,33 @@ SysTune is a lightweight and efficient GTK-based system settings manager built i
 - Wireless Tools
 - UFW
 
+## Usage 
+
+### Dependencies
+
+* gtk4 & adwaita
+* nmcli
+* pactl
+* swww ( for wayland ) |  feh ( for xorg )
+* ufw
+* brightnessctl
+* wlr-randr | xrandr
+
+### Steps
+
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/fulgurcode/systune.git
+   ```
+2. **Build**
+   ```bash
+   make build
+   ```
+3. **Run**
+   ```bash
+   make run
+   ```
+
 ## Contributing
 
 Contributions are welcome! To contribute to this project:
@@ -59,6 +86,8 @@ Contributions are welcome! To contribute to this project:
    ```
 10. **Create a new Pull Request**
 
+
+
 ## LICENSE
 
 [The GPLv3 License (GPLv3)](LICENSE)
@@ -87,6 +116,5 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 - **Email:** [shreyassk.dev@gmail.com](mailto:shreyassk.dev@gmail.com)
 - **GitHub:** [Shreyas S K](https://github.com/shreyasskdev)
 
-#### Naveen O V
-- **Email:** [naveenov23@gmail.com](mailto:naveenov23@gmail.com)
-- **GitHub:** [Naveen OV](https://github.com/n4vxn)
+#### Adarsh S K
+- **GitHub:** [natejacobs1](https://github.com/natejacobs1)
