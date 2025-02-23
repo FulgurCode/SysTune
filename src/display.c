@@ -20,7 +20,7 @@ void change_panel_to_display(gpointer user_data) {
   gtk_stack_set_visible_child_name(stack, "display_page");
 }
 // Function to parse the xrandr output and update the global DisplayList
-void get_available_resalutions(GtkStringList *sink_list) {
+void get_available_resolutions_xorg(GtkStringList *sink_list) {
   char *result = execute_command("xrandr");
   if (result == NULL) {
     g_print("Failed to execute command.\n");
@@ -70,6 +70,53 @@ void get_available_resalutions(GtkStringList *sink_list) {
   free(result);
 }
 
+void get_available_resolutions_wayland(GtkStringList *sink_list) {
+  char *result = execute_command("wlr-randr");
+  if (result == NULL) {
+    g_print("Failed to execute command.\n");
+    return;
+  }
+
+  // Parse the result line by line
+  char *line = strtok(result, "\n");
+  while (line != NULL) {
+    // Check if the line contains a resolution (e.g., "1920x1200 px, 60.026001
+    // Hz")
+    if (strstr(line, "px,") != NULL && strstr(line, "Hz") != NULL) {
+      char resolution[32];
+      float refresh_rate;
+
+      // Parse the resolution and refresh rate
+      if (sscanf(line, " %31[0-9x] px, %f Hz", resolution, &refresh_rate) ==
+          2) {
+        // Resize the global DisplayList to accommodate the new mode
+        DisplayList = realloc(DisplayList, (count + 1) * sizeof(DisplayMode));
+        if (DisplayList == NULL) {
+          perror("realloc");
+          free(result);
+          return;
+        }
+
+        // Store the resolution and refresh rate in the global DisplayList
+        strncpy(DisplayList[count].resolution, resolution,
+                sizeof(DisplayList[count].resolution) - 1);
+        DisplayList[count]
+            .resolution[sizeof(DisplayList[count].resolution) - 1] =
+            '\0'; // Ensure null-termination
+        DisplayList[count].refresh_rate = refresh_rate;
+
+        // Append the resolution to the GTK string list
+        gtk_string_list_append(sink_list, DisplayList[count].resolution);
+
+        count++;
+      }
+    }
+    line = strtok(NULL, "\n");
+  }
+
+  free(result);
+}
+
 // Callback function for when the slider value changes
 static void on_res_change(AdwComboRow *combo, gpointer user_data) {
   GtkStringList *sink_list = GTK_STRING_LIST(adw_combo_row_get_model(combo));
@@ -84,9 +131,20 @@ static void on_res_change(AdwComboRow *combo, gpointer user_data) {
   g_print("%s", res.resolution);
   g_print("%f", res.refresh_rate);
 
-  // Construct the xrandr command
+  char *display_server = execute_command("echo $XDG_SESSION_TYPE");
   char command[512];
-  snprintf(command, sizeof(command), "xrandr -s %s", res.resolution);
+  g_strchomp(display_server);
+
+
+  if (g_strcmp0(display_server, "wayland") == 0) {
+    snprintf(command, sizeof(command), "wlr-randr --output eDP-1 --mode %s", res.resolution);
+    g_print("command is %s  ", command);
+  } else {
+    g_print("%s", display_server);
+    snprintf(command, sizeof(command), "xrandr -s %s", res.resolution);
+  }
+
+  char *result = execute_command(command);
 
   // Execute the command
   execute_command(command);
@@ -157,6 +215,25 @@ static void on_choose_background(GtkButton *button, GtkImage *preview_image) {
                    preview_image);
 }
 
+// Function to get available resolutions based on the session type
+void get_available_resolutions(GtkStringList *sink_list) {
+  const char *session_type = g_getenv("XDG_SESSION_TYPE");
+  if (session_type == NULL) {
+    g_print("XDG_SESSION_TYPE environment variable not set.\n");
+    return;
+  }
+
+  if (g_strcmp0(session_type, "wayland") == 0) {
+    g_print("Detected Wayland session. Using wlr-randr.\n");
+    get_available_resolutions_wayland(sink_list);
+  } else if (g_strcmp0(session_type, "x11") == 0) {
+    g_print("Detected Xorg session. Using xrandr.\n");
+    get_available_resolutions_xorg(sink_list);
+  } else {
+    g_print("Unsupported session type: %s\n", session_type);
+  }
+}
+
 static void display_to_stack(GtkStack *stack) {
   if (DisplayPage) {
     return;
@@ -199,7 +276,7 @@ static void display_to_stack(GtkStack *stack) {
   GtkStringList *sink_list = GTK_STRING_LIST(
       gtk_builder_get_object(display_builder, "display_res_sink_list"));
 
-  get_available_resalutions(sink_list);
+  get_available_resolutions(sink_list);
 
   AdwComboRow *combo =
       ADW_COMBO_ROW(gtk_builder_get_object(display_builder, "display_res"));
