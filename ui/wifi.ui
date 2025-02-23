@@ -28,7 +28,7 @@
           </object>
         </child>
 
-        <child>
+        <!-- <child>
           <object class="AdwActionRow">
             <property name="title">Current Network</property>
             <property name="subtitle">MyHomeNetwork</property>
@@ -45,6 +45,18 @@
                 <property name="icon-name">emblem-system-symbolic</property>
                 <property name="valign">center</property>
                 <property name="tooltip-text">Network settings</property>
+              </object>
+            </child>
+          </object>
+        </child> -->
+        <child>
+          <object class="AdwActionRow" id="current_network_row">
+            <property name="title">Not Connected</property>
+            <property name="subtitle">No active network connection</property>
+            <child>
+              <object class="GtkImage" id="current_network_icon">
+                <property name="icon-name">network-wireless-offline-symbolic</property>
+                <property name="valign">center</property>
               </object>
             </child>
           </object>

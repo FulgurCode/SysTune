@@ -32,6 +32,13 @@ static void toggle_wifi(gboolean enable);
 static void wifi_to_stack(GtkStack *stack);
 static gboolean on_refresh_timeout(gpointer user_data);
 static void refresh_wifi_networks(GtkListBox *list_box);
+static void on_row_clicked(GtkGestureClick *gesture, gint n_press, gdouble x, gdouble y, gpointer user_data);
+static void connect_to_network(const char *ssid, gboolean is_secured);
+static void show_password_dialog(const char *ssid);
+static void connect_with_password(const char *ssid, const char *password);
+static void on_password_dialog_response(GtkDialog *dialog, gint response_id, gpointer user_data);
+static void update_current_network(GtkBuilder *builder);
+
 
 // Global variables
 static guint refresh_timeout_id = 0;
@@ -160,11 +167,21 @@ static const char* get_signal_icon_name(int signal_strength) {
         return "network-wireless-signal-weak-symbolic";
     }
 }
-
+// Modify create_network_row to add click gesture
 static GtkWidget* create_network_row(const char *ssid, int signal_strength, gboolean is_secured) {
     AdwActionRow *row = ADW_ACTION_ROW(adw_action_row_new());
     adw_preferences_row_set_title(ADW_PREFERENCES_ROW(row), ssid);
     adw_action_row_set_subtitle(row, is_secured ? "Secured with WPA" : "Open Network");
+
+    gtk_list_box_row_set_activatable(GTK_LIST_BOX_ROW(row), TRUE);
+
+    // Add click gesture to the row
+    GtkGesture *click = gtk_gesture_click_new();
+    g_signal_connect(click, "pressed", G_CALLBACK(on_row_clicked), row);
+    gtk_widget_add_controller(GTK_WIDGET(row), GTK_EVENT_CONTROLLER(click));
+
+    // Print debug info
+    g_print("DEBUG: Created row for network: %s\n", ssid);
 
     GtkImage *signal_icon = GTK_IMAGE(gtk_image_new_from_icon_name(
         get_signal_icon_name(signal_strength)));
@@ -173,7 +190,6 @@ static GtkWidget* create_network_row(const char *ssid, int signal_strength, gboo
 
     return GTK_WIDGET(row);
 }
-
 static void clear_list_box(GtkListBox *list_box) {
     GtkWidget *child;
     while ((child = gtk_widget_get_first_child(GTK_WIDGET(list_box))) != NULL) {
@@ -201,6 +217,15 @@ static gboolean on_refresh_timeout(gpointer user_data) {
     refresh_wifi_networks(list_box);
     return G_SOURCE_CONTINUE;
 }
+// static gboolean on_refresh_timeout(gpointer user_data) {
+//     InitData *init_data = (InitData *)user_data;
+    
+//     // Refresh both list and current status
+//     refresh_wifi_networks(init_data->wifi_list);
+//     update_current_network(init_data->builder);
+    
+//     return G_SOURCE_CONTINUE;
+// }
 
 void change_panel_to_wifi(gpointer user_data) {
     GtkStack *stack = GTK_STACK(user_data);
@@ -287,6 +312,168 @@ static void toggle_wifi(gboolean enable) {
         g_error_free(error);
     }
 }
+
+// Modify the row click handler to initiate connection
+static void on_row_clicked(GtkGestureClick *gesture, gint n_press, gdouble x, gdouble y, gpointer user_data) {
+    AdwActionRow *row = ADW_ACTION_ROW(user_data);
+    if (row) {
+        const char *ssid = adw_preferences_row_get_title(ADW_PREFERENCES_ROW(row));
+        const char *subtitle = adw_action_row_get_subtitle(row);
+        gboolean is_secured = g_str_has_prefix(subtitle, "Secured");
+        
+        g_print("Attempting to connect to: %s\n", ssid);
+        connect_to_network(ssid, is_secured);
+    }
+}
+
+// Function to handle network connection
+static void connect_to_network(const char *ssid, gboolean is_secured) {
+    if (is_secured) {
+        show_password_dialog(ssid);
+    } else {
+        // Connect directly to open network
+        connect_with_password(ssid, NULL);
+    }
+}
+
+// Function to show password dialog for secured networks
+static void show_password_dialog(const char *ssid) {
+    GtkWidget *dialog;
+    GtkWidget *content_area;
+    GtkWidget *password_entry;
+    GtkWidget *box;
+    GtkWidget *label;
+
+    // Create dialog
+    dialog = gtk_dialog_new_with_buttons("Connect to Network",
+                                       NULL,
+                                       GTK_DIALOG_MODAL | GTK_DIALOG_USE_HEADER_BAR,
+                                       "Cancel",
+                                       GTK_RESPONSE_CANCEL,
+                                       "Connect",
+                                       GTK_RESPONSE_OK,
+                                       NULL);
+
+    content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    
+    // Create a box for the content
+    box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    gtk_widget_set_margin_start(box, 20);
+    gtk_widget_set_margin_end(box, 20);
+    gtk_widget_set_margin_top(box, 20);
+    gtk_widget_set_margin_bottom(box, 20);
+
+    // Add network name label
+    label = gtk_label_new(NULL);
+    char *markup = g_markup_printf_escaped("Enter password for <b>%s</b>", ssid);
+    gtk_label_set_markup(GTK_LABEL(label), markup);
+    g_free(markup);
+    gtk_box_append(GTK_BOX(box), label);
+
+    // Add password entry
+    password_entry = gtk_password_entry_new();
+    gtk_password_entry_set_show_peek_icon(GTK_PASSWORD_ENTRY(password_entry), TRUE);
+    gtk_widget_set_hexpand(password_entry, TRUE);
+    gtk_box_append(GTK_BOX(box), password_entry);
+
+    // Add box to dialog
+    gtk_box_append(GTK_BOX(content_area), box);
+
+    // Connect response signal
+    g_signal_connect(dialog, "response", G_CALLBACK(on_password_dialog_response), 
+                    (gpointer)g_strdup(ssid));
+    
+    // Show dialog
+    gtk_widget_show(dialog);
+}
+
+// Handle dialog response
+static void on_password_dialog_response(GtkDialog *dialog, gint response_id, gpointer user_data) {
+    char *ssid = (char *)user_data;
+    
+    if (response_id == GTK_RESPONSE_OK) {
+        GtkWidget *content_area = gtk_dialog_get_content_area(dialog);
+        GtkWidget *box = gtk_widget_get_first_child(content_area);
+        GtkWidget *password_entry = gtk_widget_get_last_child(box);
+        
+        const char *password = gtk_editable_get_text(GTK_EDITABLE(password_entry));
+        connect_with_password(ssid, password);
+    }
+    
+    g_free(ssid);
+    gtk_window_destroy(GTK_WINDOW(dialog));
+}
+
+// Function to actually connect to the network
+static void connect_with_password(const char *ssid, const char *password) {
+    GError *error = NULL;
+    char *command;
+    
+    if (password) {
+        command = g_strdup_printf("nmcli dev wifi connect '%s' password '%s' ", 
+                                 ssid, password);
+    } else {
+        command = g_strdup_printf("nmcli device wifi connect '%s'", ssid);
+    }
+    
+    g_print("Executing: %s\n", command);
+    
+    gchar *output = NULL;
+    if (!g_spawn_command_line_sync(command, &output, NULL, NULL, &error)) {
+        g_print("Failed to connect: %s\n", error->message);
+        g_error_free(error);
+    } else {
+        g_print("Connection output: %s\n", output);
+    }
+
+    // if (!error) {
+    //     g_print("Connected successfully!\n");
+    //     // Update network list and current connection
+    //     refresh_wifi_networks(init_data->wifi_list);
+    //     update_current_network(init_data->builder);
+    // }
+    
+    g_free(command);
+    g_free(output);
+}
+
+static void update_current_network(GtkBuilder *builder) {
+    GError *error = NULL;
+    gchar *output = NULL;
+    GtkWidget *current_row = GTK_WIDGET(gtk_builder_get_object(builder, "current_network_row"));
+    GtkWidget *current_icon = GTK_WIDGET(gtk_builder_get_object(builder, "current_network_icon"));
+
+    if (!g_spawn_command_line_sync("nmcli -t -f active,ssid dev wifi", &output, NULL, NULL, &error)) {
+        g_warning("Failed to get current network: %s", error->message);
+        g_error_free(error);
+        return;
+    }
+
+    gchar **lines = g_strsplit(output, "\n", -1);
+    gboolean connected = FALSE;
+    
+    for (int i = 0; lines[i] != NULL; i++) {
+        gchar **fields = g_strsplit(lines[i], ":", 2);
+        if (g_strv_length(fields) >= 2 && g_strcmp0(fields[0], "yes") == 0) {
+            adw_preferences_row_set_title(ADW_PREFERENCES_ROW(current_row), fields[1]);
+            adw_action_row_set_subtitle(ADW_ACTION_ROW(current_row), "Connected");
+            gtk_image_set_from_icon_name(GTK_IMAGE(current_icon), "network-wireless-signal-excellent-symbolic");
+            connected = TRUE;
+            break;
+        }
+        g_strfreev(fields);
+    }
+
+    if (!connected) {
+        adw_preferences_row_set_title(ADW_PREFERENCES_ROW(current_row), "Not Connected");
+        adw_action_row_set_subtitle(ADW_ACTION_ROW(current_row), "No active network connection");
+        gtk_image_set_from_icon_name(GTK_IMAGE(current_icon), "network-wireless-offline-symbolic");
+    }
+
+    g_strfreev(lines);
+    g_free(output);
+}
+
 static void wifi_to_stack(GtkStack *stack) {
     // Check if page already exists
     if (WifiPage != NULL) {
@@ -324,10 +511,22 @@ static void wifi_to_stack(GtkStack *stack) {
     }
 
     init_data->wifi_list = GTK_LIST_BOX(gtk_builder_get_object(wifi_builder, "wifi_networks_list"));
-    
+    if (init_data->wifi_list != NULL) {
+        g_print("DEBUG: Found wifi_list\n");
+        
+        // Add a direct click handler to the list box as well
+        GtkGesture *list_click = gtk_gesture_click_new();
+        g_signal_connect(list_click, "pressed", G_CALLBACK(on_row_clicked), NULL);
+        gtk_widget_add_controller(GTK_WIDGET(init_data->wifi_list), GTK_EVENT_CONTROLLER(list_click));
+        
+        refresh_wifi_networks(init_data->wifi_list);
+    }
+
+
     // Start immediate network scan
     if (init_data->wifi_list != NULL) {
         refresh_wifi_networks(init_data->wifi_list);
+        update_current_network(init_data->builder);
     }
 
     // Start async initialization chain for additional setup
