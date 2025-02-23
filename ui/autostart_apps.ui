@@ -2,7 +2,9 @@
 <interface>
   <requires lib="gtk" version="4.12"/>
 
-  <object class="GtkBox" id="autostart_apps_page">
+  <object class="GtkScrolledWindow"  id="autostart_apps_page">
+    <child>
+  <object class="GtkBox" id="autostart_apps_page>
     <property name="margin-bottom">24</property>
     <property name="margin-end">24</property>
     <property name="margin-start">24</property>
@@ -82,6 +84,8 @@
           </object>
         </child>
       </object>
+    </child>
+  </object>
     </child>
   </object>
 </interface>

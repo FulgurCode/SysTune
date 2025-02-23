@@ -3,7 +3,9 @@
 <interface>
   <!-- interface-name display.ui -->
   <requires lib="gtk" version="4.12"/>
-  <object class="GtkBox" id="display_page">
+  <object class="GtkScrolledWindow"  id="display_page">
+    <child>
+  <object class="GtkBox" >
     <property name="margin-bottom">10</property>
     <property name="margin-end">10</property>
     <property name="margin-start">10</property>
@@ -31,14 +33,14 @@
 
     <child>
       <object class="AdwPreferencesGroup">
-        <property name="title">Output</property>
+        <property name="title">Display Settings</property>
         <property
                     name="description"
-                >Configure your speaker and output settings</property>
+                >Configure your monitor and display settings</property>
 
     <child>
         <object class="AdwComboRow" id="display_res">
-        <property name="title">Resalution</property>
+        <property name="title">Resolution</property>
         <property name="model">
             <object class="GtkStringList" id="display_res_sink_list">
             <items>
@@ -74,5 +76,7 @@
       <property name="pixel-size">200</property>
     </object>
   </child>
+  </object>
+    </child>
   </object>
 </interface>

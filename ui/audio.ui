@@ -3,7 +3,9 @@
   <requires lib="gtk" version="4.12" />
   <!-- <requires lib="adw" version="1"/> -->
 
-  <object class="GtkBox" id="audio_page">
+  <object class="GtkScrolledWindow" id="audio_page">
+<child>
+  <object class="GtkBox" >
     <property name="margin-bottom">24</property>
     <property name="margin-end">24</property>
     <property name="margin-start">24</property>
@@ -188,6 +190,8 @@
           </object>
         </child>
       </object>
+    </child>
+  </object>
     </child>
   </object>
 </interface>
