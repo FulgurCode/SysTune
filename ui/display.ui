@@ -34,5 +34,27 @@
         <property name="label">DISPLAY</property>
       </object>
     </child>
+
+
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title">Output</property>
+        <property
+                    name="description"
+                >Configure your speaker and output settings</property>
+
+    <child>
+        <object class="AdwComboRow" id="display_res">
+        <property name="title">Resalution</property>
+        <property name="model">
+            <object class="GtkStringList" id="display_res_sink_list">
+            <items>
+            </items>
+            </object>
+        </property>
+        </object>
+    </child>
+      </object>
+    </child>
   </object>
 </interface>
