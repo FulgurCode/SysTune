@@ -15,14 +15,6 @@
           <object class="GtkBox">
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkSearchEntry">
-                <property name="margin-bottom">5</property>
-                <property name="margin-end">5</property>
-                <property name="margin-start">5</property>
-                <property name="margin-top">5</property>
-              </object>
-            </child>
-            <child>
               <object class="GtkListBox" id="left_panel">
                 <property name="selection-mode">single</property>
                 <property name="vexpand">True</property>
@@ -52,16 +44,6 @@
                     <property name="xalign">0.0</property>
                   </object>
                 </child>
-                <!-- <child>
-                  <object class="GtkLabel" id="connectivity_options">
-                    <property name="label">Connectivity</property>
-                    <property name="margin-bottom">5</property>
-                    <property name="margin-start">5</property>
-                    <property name="margin-top">5</property>
-                    <property name="name">connectivity_options</property>
-                    <property name="xalign">0.0</property>
-                  </object>
-                </child> -->
                 <child>
                   <object class="GtkLabel" id="wifi_options">
                     <property name="label">Wifi</property>
@@ -101,46 +83,7 @@
                     <property name="xalign">0.0</property>
                   </object>
                 </child>
-                <child>
-                  <object class="GtkLabel" id="default_apps">
-                    <property name="label">Default Apps</property>
-                    <property name="margin-bottom">5</property>
-                    <property name="margin-start">5</property>
-                    <property name="margin-top">5</property>
-                    <property name="name">default_apps</property>
-                    <property name="xalign">0.0</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="user_permissions">
-                    <property name="label">User Permissions</property>
-                    <property name="margin-bottom">5</property>
-                    <property name="margin-start">5</property>
-                    <property name="margin-top">5</property>
-                    <property name="name">user_permissions</property>
-                    <property name="xalign">0.0</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="keyboard_shortcuts">
-                    <property name="label">Keyboard Shortcuts</property>
-                    <property name="margin-bottom">5</property>
-                    <property name="margin-start">5</property>
-                    <property name="margin-top">5</property>
-                    <property name="name">keyboard_shortcuts</property>
-                    <property name="xalign">0.0</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="config_files">
-                    <property name="label">Configuration Files</property>
-                    <property name="margin-bottom">5</property>
-                    <property name="margin-start">5</property>
-                    <property name="margin-top">5</property>
-                    <property name="name">config_files</property>
-                    <property name="xalign">0.0</property>
-                  </object>
-                </child>
+                
                 <style>
                   <class name="leftbar"/>
                 </style>
@@ -167,8 +110,10 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">10</property>
                 <child>
-                  <object class="GtkLabel" id="display_label">
-                    <property name="label">Display Settings: Resolution, Brightness, Themes, yeah</property>
+                  <object class="GtkLabel">
+                    <property name="label">Select a Section</property>
+                    <property name="margin-top">20</property>
+                    <property name="use-markup">true</property>
                   </object>
                 </child>
               </object>

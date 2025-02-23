@@ -25,32 +25,7 @@
               <class name="content-list"/>
             </style>
 
-            <!-- Example items -->
-            <child>
-              <object class="AdwActionRow">
-                <property name="title">Discord</property>
-                <property name="subtitle">Chat and communication platform</property>
-                <child>
-                  <object class="GtkSwitch">
-                    <property name="valign">center</property>
-                    <property name="active">true</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-
-            <child>
-              <object class="AdwActionRow">
-                <property name="title">Dropbox</property>
-                <property name="subtitle">Cloud storage service</property>
-                <child>
-                  <object class="GtkSwitch">
-                    <property name="valign">center</property>
-                    <property name="active">true</property>
-                  </object>
-                </child>
-              </object>
-            </child>
+            
           </object>
         </child>
       </object>
