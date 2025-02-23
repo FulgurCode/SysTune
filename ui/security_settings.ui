@@ -2,124 +2,99 @@
 <interface>
   <requires lib="gtk" version="4.12"/>
 
-  <object class="GtkScrolledWindow"  id="security_settings_page">
+  <object class="GtkScrolledWindow" id="security_settings_page">
     <child>
-  <object class="GtkBox">
-    <property name="margin-bottom">24</property>
-    <property name="margin-end">24</property>
-    <property name="margin-start">24</property>
-    <property name="margin-top">24</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">24</property>
+      <object class="GtkBox">
+        <property name="margin-bottom">24</property>
+        <property name="margin-end">24</property>
+        <property name="margin-start">24</property>
+        <property name="margin-top">24</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">24</property>
 
-    <!-- Firewall Section -->
-    <child>
-      <object class="AdwPreferencesGroup">
-        <property name="title">Firewall</property>
-        <property name="description">Configure system firewall settings</property>
-
+        <!-- Firewall Section -->
         <child>
-          <object class="AdwSwitchRow" id="firewall_switch">
-            <property name="title">Enable Firewall</property>
-            <property name="subtitle">Protect your system from unauthorized access</property>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Firewall</property>
+            <property name="description">Configure system firewall settings</property>
+
+            <child>
+              <object class="AdwSwitchRow" id="firewall_switch">
+                <property name="title">Enable Firewall</property>
+                <property name="subtitle">Protect your system from unauthorized access</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwExpanderRow">
+                <property name="title">Advanced Firewall Settings</property>
+                <property name="subtitle">Configure specific firewall rules</property>
+                <property name="enable-expansion">true</property>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">Allow SSH Access</property>
+                    <child>
+                      <object class="GtkSwitch" id="ssh_switch">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwActionRow" id="remote_switch">
+                    <property name="title">Allow Remote Desktop</property>
+                    <child>
+                      <object class="GtkSwitch" id="vnc_switch">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title">SMTP</property>
+                    <child>
+                      <object class="GtkSwitch" id="smtp_switch">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </child>
 
+        <!-- Port Configuration -->
         <child>
-          <object class="AdwExpanderRow">
-            <property name="title">Advanced Firewall Settings</property>
-            <property name="subtitle">Configure specific firewall rules</property>
-            <property name="enable-expansion">true</property>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Custom Port Configuration</property>
+            <property name="description">Enable or disable a specific port</property>
 
             <child>
-              <object class="AdwActionRow">
-                <property name="title">Allow SSH Access</property>
+              <object class="AdwActionRow" id="port_config_row">
+                <property name="title">Port Number</property>
+                <property name="subtitle">Enter a port to allow or deny</property>
                 <child>
-                  <object class="GtkSwitch" id="ssh_switch">
+                  <object class="GtkEntry" id="port_entry">
+                    <property name="placeholder-text">Enter port number</property>
+                    <property name="width-chars">20</property>
+                    <property name="input-purpose">number</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="port_switch">
                     <property name="valign">center</property>
                   </object>
                 </child>
               </object>
             </child>
-
-            <child>
-              <object class="AdwActionRow" id="remote_switch">
-                <property name="title">Allow Remote Desktop</property>
-                <child>
-                  <object class="GtkSwitch" id="vnc_switch">
-                    <property name="valign">center</property>
-                  </object>
-                </child>
-              </object>
-            </child>
           </object>
         </child>
       </object>
-    </child>
-
-    <!-- System Protection -->
-    <child>
-      <object class="AdwPreferencesGroup">
-        <property name="title">System Protection</property>
-        <property name="description">Additional security measures</property>
-
-        <child>
-          <object class="AdwSwitchRow">
-            <property name="title">Automatic Updates</property>
-            <property name="subtitle">Keep system and security patches up to date</property>
-          </object>
-        </child>
-
-        <child>
-          <object class="AdwSwitchRow">
-            <property name="title">USB Device Protection</property>
-            <property name="subtitle">Require authentication for new USB devices</property>
-          </object>
-        </child>
-
-        <child>
-          <object class="AdwComboRow">
-            <property name="title">Screen Lock Timeout</property>
-            <property name="subtitle">Automatically lock screen after inactivity</property>
-            <property name="model">
-              <object class="GtkStringList">
-                <items>
-                  <item>1 minute</item>
-                  <item>5 minutes</item>
-                  <item>15 minutes</item>
-                  <item>30 minutes</item>
-                  <item>1 hour</item>
-                  <item>Never</item>
-                </items>
-              </object>
-            </property>
-          </object>
-        </child>
-      </object>
-    </child>
-
-    <!-- App Permissions -->
-    <child>
-      <object class="AdwPreferencesGroup">
-        <property name="title">Application Security</property>
-        <property name="description">Manage application permissions and security settings</property>
-
-        <child>
-          <object class="GtkButton">
-            <property name="label">App Permissions</property>
-            <property name="icon-name">preferences-system-privacy-symbolic</property>
-          </object>
-        </child>
-
-        <child>
-          <object class="GtkButton">
-            <property name="label">Security Audit Log</property>
-            <property name="icon-name">document-open-recent-symbolic</property>
-          </object>
-        </child>
-      </object>
-    </child>
-  </object>
     </child>
   </object>
 </interface>
