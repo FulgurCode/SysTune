@@ -3,50 +3,48 @@
   <requires lib="gtk" version="4.12" />
   <!-- <requires lib="adw" version="1"/> -->
 
-  <object class="GtkScrolledWindow" id="audio_page">
-<child>
-  <object class="GtkBox" >
+  <object class="GtkScrolledWindow"  id="audio_page">
+  <child>
+  <object class="AdwPreferencesPage">
     <property name="margin-bottom">24</property>
     <property name="margin-end">24</property>
     <property name="margin-start">24</property>
     <property name="margin-top">24</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">24</property>
 
     <!-- Output Section -->
     <child>
       <object class="AdwPreferencesGroup">
-        <property name="title">Output</property>
-        <property
-                    name="description"
-                >Configure your speaker and output settings</property>
+        <property name="title">Output Settings</property>
+        <property name="description">Speaker configuration and volume levels</property>
+        <property name="margin-bottom">32</property>
 
-        <!-- Output Device Selection -->
+        <!-- Output Device -->
         <child>
           <object class="AdwComboRow" id="output_device">
             <property name="title">Output Device</property>
+            <property name="subtitle">Select playback device</property>
             <property name="model">
-              <object class="GtkStringList" id="audio_sink_list">
-                <items>
-                </items>
-              </object>
+              <object class="GtkStringList" id="audio_sink_list"/>
             </property>
           </object>
         </child>
 
-        <!-- Master Volume -->
+        <!-- Volume Control -->
         <child>
-          <object class="AdwActionRow">
+          <object class="AdwPreferencesGroup">
             <property name="title">Master Volume</property>
-            <property name="subtitle">Adjust system-wide volume level</property>
+            <property name="description">System-wide output volume level</property>
             <child>
               <object class="GtkScale" id="adjustment_slider">
-                <property name="valign">center</property>
-                <property name="width-request">200</property>
-                <property name="draw-value">true</property>
+                <property name="hexpand">True</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">8</property>
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+                <property name="draw-value">True</property>
                 <property name="value-pos">right</property>
                 <property name="adjustment">
-                  <object class="GtkAdjustment" id="slider">
+                  <object class="GtkAdjustment"  id="slider">
                     <property name="lower">0</property>
                     <property name="upper">100</property>
                     <property name="value">75</property>
@@ -57,141 +55,55 @@
             </child>
           </object>
         </child>
-
-        <!-- Balance Control -->
-        <child>
-          <object class="AdwActionRow">
-            <property name="title">Balance</property>
-            <property
-                            name="subtitle"
-                        >Adjust left/right speaker balance</property>
-            <child>
-              <object class="GtkScale">
-                <property name="valign">center</property>
-                <property name="width-request">200</property>
-                <property name="draw-value">true</property>
-                <property name="value-pos">right</property>
-                <property name="adjustment">
-                  <object class="GtkAdjustment">
-                    <property name="lower">-100</property>
-                    <property name="upper">100</property>
-                    <property name="value">0</property>
-                  </object>
-                </property>
-                <marks>
-                  <mark value="-100" position="bottom">L</mark>
-                  <mark value="0" position="bottom">C</mark>
-                  <mark value="100" position="bottom">R</mark>
-                </marks>
-              </object>
-            </child>
-          </object>
-        </child>
       </object>
     </child>
 
-    <!-- Effects Section -->
+    <!-- Input Section -->
     <child>
       <object class="AdwPreferencesGroup">
-        <property name="title">Sound Enhancement</property>
-        <property name="description">Customize your audio experience</property>
+        <property name="title">Input Settings</property>
+        <property name="description">Microphone configuration and levels</property>
+        <property name="margin-bottom">32</property>
 
-        <!-- Equalizer Switch -->
+        <!-- Input Device -->
         <child>
-          <object class="AdwSwitchRow" id="equalizer_switch">
-            <property name="title">Equalizer</property>
-            <property name="subtitle">Fine-tune frequency response</property>
+          <object class="AdwComboRow" id="input_device">
+            <property name="title">Input Device</property>
+            <property name="subtitle">Select capture device</property>
+            <property name="model">
+              <object class="GtkStringList" id="audio_source_list"/>
+            </property>
           </object>
         </child>
 
-        <!-- Bass Boost -->
+        <!-- Mic Level -->
         <child>
-          <object class="AdwActionRow">
-            <property name="title">Bass Boost</property>
-            <property name="subtitle">Enhance low frequency response</property>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Microphone Level</property>
+            <property name="description">Input gain adjustment</property>
             <child>
-              <object class="GtkScale">
-                <property name="valign">center</property>
-                <property name="width-request">200</property>
-                <property name="draw-value">true</property>
+              <object class="GtkScale" id="adjustment_slider_mic">
+                <property name="hexpand">True</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">8</property>
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+                <property name="draw-value">True</property>
                 <property name="value-pos">right</property>
                 <property name="adjustment">
                   <object class="GtkAdjustment">
                     <property name="lower">0</property>
                     <property name="upper">100</property>
-                    <property name="value">50</property>
+                    <property name="value">75</property>
+                    <property name="step-increment">1</property>
                   </object>
                 </property>
               </object>
             </child>
           </object>
         </child>
-
-        <!-- Virtual Surround -->
-        <child>
-          <object class="AdwSwitchRow" id="surround_switch">
-            <property name="title">Virtual Surround</property>
-            <property
-                            name="subtitle"
-                        >Simulate surround sound experience</property>
-          </object>
-        </child>
-      </object>
-    </child>
-
-    <!-- Alert Sounds Section -->
-    <child>
-      <object class="AdwPreferencesGroup">
-        <property name="title">System Sounds</property>
-        <property
-                    name="description"
-                >Configure system notification sounds</property>
-
-        <!-- Alert Volume -->
-        <child>
-          <object class="AdwActionRow">
-            <property name="title">Alert Volume</property>
-            <property
-                            name="subtitle"
-                        >Volume level for system notifications</property>
-            <child>
-              <object class="GtkScale">
-                <property name="valign">center</property>
-                <property name="width-request">200</property>
-                <property name="draw-value">true</property>
-                <property name="value-pos">right</property>
-                <property name="adjustment">
-                  <object class="GtkAdjustment">
-                    <property name="lower">0</property>
-                    <property name="upper">100</property>
-                    <property name="value">60</property>
-                  </object>
-                </property>
-              </object>
-            </child>
-          </object>
-        </child>
-
-        <!-- Event Sounds Switch -->
-        <child>
-          <object class="AdwSwitchRow" id="event_sounds_switch">
-            <property name="title">Event Sounds</property>
-            <property name="subtitle">Play sounds for system events</property>
-          </object>
-        </child>
-
-        <!-- Input Feedback -->
-        <child>
-          <object class="AdwSwitchRow" id="input_feedback_switch">
-            <property name="title">Input Feedback</property>
-            <property
-                            name="subtitle"
-                        >Play sounds when typing or clicking</property>
-          </object>
-        </child>
       </object>
     </child>
   </object>
-    </child>
-  </object>
+  </child></object>
 </interface>
