@@ -28,13 +28,6 @@
         <property name="orientation">horizontal</property>
       </object>
     </child>
-    <child>
-      <object class="GtkToggleButton">
-        <property name="halign">start</property>
-        <property name="label">DISPLAY</property>
-      </object>
-    </child>
-
 
     <child>
       <object class="AdwPreferencesGroup">
@@ -56,5 +49,30 @@
     </child>
       </object>
     </child>
+<child>
+    <object class="GtkSeparator"/>
+  </child>
+
+  <child>
+    <object class="GtkLabel">
+      <property name="label">Background Settings</property>
+      <attributes>
+        <attribute name="weight" value="bold"/>
+      </attributes>
+    </object>
+  </child>
+
+  <child>
+    <object class="GtkButton" id="choose_bg_button">
+      <property name="label">Choose Background</property>
+      <!-- <signal name="clicked" handler="on_choose_background" swapped="no"/> -->
+    </object>
+  </child>
+
+  <child>
+    <object class="GtkImage" id="preview_image">
+      <property name="pixel-size">200</property>
+    </object>
+  </child>
   </object>
 </interface>

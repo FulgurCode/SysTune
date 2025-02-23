@@ -104,9 +104,57 @@ static void on_slider_value_changed(GtkRange *range, gpointer user_data) {
   g_free(command);
 
   if (error) {
-      g_printerr("Failed to toggle Brigthness: %s\n", error->message);
-      g_error_free(error);
+    g_printerr("Failed to toggle Brigthness: %s\n", error->message);
+    g_error_free(error);
   }
+}
+
+static void on_file_dialog_response(GtkDialog *dialog, gint response_id,
+                                    GtkImage *preview_image) {
+  if (response_id == GTK_RESPONSE_ACCEPT) {
+    GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
+    GFile *file = gtk_file_chooser_get_file(chooser);
+    char *file_path = g_file_get_path(file);
+
+    // Set the selected image file to the GtkImage widget
+    gtk_image_set_from_file(preview_image, file_path);
+
+    char *display_server = execute_command("echo $XDG_SESSION_TYPE");
+    char command[512];
+    g_strchomp(display_server);
+
+    if (g_strcmp0(display_server, "wayland") == 0) {
+      snprintf(command, sizeof(command), "swww img %s", file_path);
+    } else {
+      g_print("%s", display_server);
+      snprintf(command, sizeof(command), "feh --bg-scale %s", file_path);
+    }
+
+    char *result = execute_command(command);
+
+    g_free(file_path);
+    g_object_unref(file);
+  }
+
+  // Destroy the dialog
+  gtk_window_destroy(GTK_WINDOW(dialog));
+}
+
+static void on_choose_background(GtkButton *button, GtkImage *preview_image) {
+  GtkWidget *dialog;
+  GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
+
+  // Create a new file chooser dialog
+  dialog = gtk_file_chooser_dialog_new(
+      "Open File", GTK_WINDOW(gtk_widget_get_root(GTK_WIDGET(button))), action,
+      "_Cancel", GTK_RESPONSE_CANCEL, "_Open", GTK_RESPONSE_ACCEPT, NULL);
+
+  // Connect a callback to handle the response asynchronously
+  gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
+  gtk_window_present(GTK_WINDOW(dialog));
+
+  g_signal_connect(dialog, "response", G_CALLBACK(on_file_dialog_response),
+                   preview_image);
 }
 
 static void display_to_stack(GtkStack *stack) {
@@ -158,6 +206,15 @@ static void display_to_stack(GtkStack *stack) {
 
   // Connect the selection change event
   g_signal_connect(combo, "notify::selected", G_CALLBACK(on_res_change), NULL);
+
+  GtkWidget *choose_bg_button =
+      GTK_WIDGET(gtk_builder_get_object(display_builder, "choose_bg_button"));
+  GtkWidget *preview_image =
+      GTK_WIDGET(gtk_builder_get_object(display_builder, "preview_image"));
+
+  // Connect the "clicked" signal of the button to the callback function
+  g_signal_connect(choose_bg_button, "clicked",
+                   G_CALLBACK(on_choose_background), preview_image);
 
   gtk_stack_add_named(stack, DisplayPage, "display_page");
   g_object_unref(display_builder);
