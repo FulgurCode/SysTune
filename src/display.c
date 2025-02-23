@@ -21,7 +21,7 @@ static void on_slider_value_changed(GtkRange *range, gpointer user_data) {
   g_free(command);
 
   if (error) {
-      g_printerr("Failed to toggle Bluetooth: %s\n", error->message);
+      g_printerr("Failed to toggle Brigthness: %s\n", error->message);
       g_error_free(error);
   }
 }
