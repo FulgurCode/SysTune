@@ -2,27 +2,37 @@
     border-radius: 10px;
 }
 
+
 /* Style for the GtkListBox */
 GtkListBox {
-    margin: 10px; /* Add outer margin for spacing */
+    margin: 10px;
+    /* Add outer margin for spacing */
 }
 
 /* Style for each GtkListBoxRow */
 GtkListBoxRow {
-    background-color: #ffffff; /* Background color for rows */
-    border: 1px solid #ccc; /* Border around each row */
-    border-radius: 8px; /* Rounded corners */
-    margin-bottom: 5px; /* Spacing between rows */
-    padding: 10px; /* Inner padding */
+    background-color: #ffffff;
+    /* Background color for rows */
+    border: 1px solid #ccc;
+    /* Border around each row */
+    border-radius: 8px;
+    /* Rounded corners */
+    margin-bottom: 5px;
+    /* Spacing between rows */
+    padding: 10px;
+    /* Inner padding */
 }
 
 /* Hover effect for rows */
 GtkListBoxRow:hover {
-    background-color: #f0f0f0; /* Light gray on hover */
+    background-color: #f0f0f0;
+    /* Light gray on hover */
 }
 
 /* Selected row style */
 GtkListBoxRow:selected {
-    background-color: #d3e6ff; /* Light blue when selected */
-    border-color: #9ecbff; /* Highlighted border */
+    background-color: #d3e6ff;
+    /* Light blue when selected */
+    border-color: #9ecbff;
+    /* Highlighted border */
 }
