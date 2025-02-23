@@ -52,13 +52,32 @@
                     <property name="xalign">0.0</property>
                   </object>
                 </child>
-                <child>
+                <!-- <child>
                   <object class="GtkLabel" id="connectivity_options">
                     <property name="label">Connectivity</property>
                     <property name="margin-bottom">5</property>
                     <property name="margin-start">5</property>
                     <property name="margin-top">5</property>
                     <property name="name">connectivity_options</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                </child> -->
+                <child>
+                  <object class="GtkLabel" id="wifi_options">
+                    <property name="label">Wifi</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-top">5</property>
+                    <property name="name">wifi_options</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                </child><child>
+                  <object class="GtkLabel" id="bluetooth_options">
+                    <property name="label">Bluetooth</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-start">5</property>
+                    <property name="margin-top">5</property>
+                    <property name="name">bluetooth_options</property>
                     <property name="xalign">0.0</property>
                   </object>
                 </child>
