@@ -102,22 +102,6 @@
             <property name="margin-start">10</property>
             <property name="margin-top">10</property>
             <property name="transition-type">crossfade</property>
-            <child>
-              <object class="GtkBox" id="display_page">
-                <property name="hexpand">True</property>
-                <property name="margin-bottom">-2</property>
-                <property name="margin-start">1</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">10</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="label">Select a Section</property>
-                    <property name="margin-top">20</property>
-                    <property name="use-markup">true</property>
-                  </object>
-                </child>
-              </object>
-            </child>
           </object>
         </child>
       </object>

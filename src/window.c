@@ -11,10 +11,6 @@
 #include "option/keyboard_shortcuts.h"
 #include "option/config.h"
 
-static void print_hello(GtkWidget *widget, gpointer data) {
-  g_print("Hello World\n");
-}
-
 static void quit_cb(GtkWindow *window) { gtk_window_close(window); }
 
 static void on_setting_selected(GtkListBox *listbox, GtkListBoxRow *row,
@@ -79,7 +75,9 @@ GtkWidget *create_main_window(GtkApplication *app) {
     g_printerr("Failed to find 'window' in UI file\n");
     return NULL;
   }
+
   gtk_window_set_application(GTK_WINDOW(window), app);
+  change_panel_to_display(right_panel);
 
   g_object_unref(builder);
   return GTK_WIDGET(window);
