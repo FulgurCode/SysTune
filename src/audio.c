@@ -112,9 +112,26 @@ static void audio_to_stack(GtkStack *stack) {
     return;
   }
 
-  GtkBuilder *audio_builder = gtk_builder_new_from_file("ui/audio.ui");
+  const char *ui_paths[] = {
+    "ui/audio.ui",
+    "/usr/local/share/systune/ui/audio.ui"
+  };
+
+  GtkBuilder *audio_builder = NULL;
+  size_t num_paths = sizeof(ui_paths) / sizeof(ui_paths[0]);
+
+  for (size_t i = 0; i < num_paths; i++) {
+    if (g_file_test(ui_paths[i], G_FILE_TEST_EXISTS)) {
+      audio_builder = gtk_builder_new_from_file(ui_paths[i]);
+      if (audio_builder != NULL) {
+        g_print("Loaded UI file from: %s\n", ui_paths[i]);
+        break;
+      }
+    }
+  }
+
   if (audio_builder == NULL) {
-    g_printerr("Failed to load audio.ui\n");
+    g_warning("UI file 'audio.ui' not found in any of the expected locations");
     return;
   }
 

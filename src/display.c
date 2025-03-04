@@ -2,6 +2,7 @@
 #include "command/command.h"
 #include <adwaita.h>
 #include <gtk/gtk.h>
+#include <stdio.h>
 
 GtkWidget *DisplayPage;
 
@@ -135,9 +136,9 @@ static void on_res_change(AdwComboRow *combo, gpointer user_data) {
   char command[512];
   g_strchomp(display_server);
 
-
   if (g_strcmp0(display_server, "wayland") == 0) {
-    snprintf(command, sizeof(command), "wlr-randr --output eDP-1 --mode %s", res.resolution);
+    snprintf(command, sizeof(command), "wlr-randr --output eDP-1 --mode %s",
+             res.resolution);
     g_print("command is %s  ", command);
   } else {
     g_print("%s", display_server);
@@ -239,9 +240,26 @@ static void display_to_stack(GtkStack *stack) {
     return;
   }
 
-  GtkBuilder *display_builder = gtk_builder_new_from_file("ui/display.ui");
+  const char *ui_paths[] = {
+    "ui/display.ui",
+    "/usr/local/share/systune/ui/display.ui"
+  };
+
+  GtkBuilder *display_builder = NULL;
+  size_t num_paths = sizeof(ui_paths) / sizeof(ui_paths[0]);
+
+  for (size_t i = 0; i < num_paths; i++) {
+    if (g_file_test(ui_paths[i], G_FILE_TEST_EXISTS)) {
+      display_builder = gtk_builder_new_from_file(ui_paths[i]);
+      if (display_builder != NULL) {
+        g_print("Loaded UI file from: %s\n", ui_paths[i]);
+        break;
+      }
+    }
+  }
+
   if (display_builder == NULL) {
-    g_printerr("Failed to load display.ui\n");
+    g_warning("UI file 'display.ui' not found in any of the expected locations");
     return;
   }
 

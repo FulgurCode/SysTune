@@ -373,11 +373,29 @@ void bluetooth_to_stack(GtkStack *stack) {
     return;
   }
 
-  GtkBuilder *bluetooth_builder = gtk_builder_new_from_file("ui/bluetooth.ui");
+  const char *ui_paths[] = {
+    "ui/bluetooth.ui",
+    "/usr/local/share/systune/ui/bluetooth.ui"
+  };
+
+  GtkBuilder *bluetooth_builder = NULL;
+  size_t num_paths = sizeof(ui_paths) / sizeof(ui_paths[0]);
+
+  for (size_t i = 0; i < num_paths; i++) {
+    if (g_file_test(ui_paths[i], G_FILE_TEST_EXISTS)) {
+      bluetooth_builder = gtk_builder_new_from_file(ui_paths[i]);
+      if (bluetooth_builder != NULL) {
+        g_print("Loaded UI file from: %s\n", ui_paths[i]);
+        break;
+      }
+    }
+  }
+
   if (bluetooth_builder == NULL) {
-    g_printerr("Failed to load bluetooth.ui\n");
+    g_warning("UI file 'bluetooth.ui' not found in any of the expected locations");
     return;
   }
+
 
   BluetoothPage =
       GTK_WIDGET(gtk_builder_get_object(bluetooth_builder, "bluetooth_page"));
