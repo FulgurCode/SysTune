@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=SysTune
+Comment=A lightweight and efficient GTK-based system settings manager
+Exec=/usr/local/bin/systune
+Icon=/usr/local/share/icons/systune.png
+Terminal=false
+Type=Application
+Categories=Utility;System;Settings;
+Keywords=system;settings;gtk;display;audio;network;security;
+StartupNotify=true
