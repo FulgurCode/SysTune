@@ -55,7 +55,7 @@ static void on_setting_selected(GtkListBox *listbox, GtkListBoxRow *row,
 GtkWidget *create_main_window(GtkApplication *app) {
   /* Load UI from file */
   GtkBuilder *builder = gtk_builder_new();
-  if (!gtk_builder_add_from_file(builder, "ui/main.ui", NULL) && !gtk_builder_add_from_file(builder, "/usr/local/share/systune/ui/main.ui", NULL)) {
+  if (!gtk_builder_add_from_file(builder, "ui/main.ui", NULL) && !gtk_builder_add_from_file(builder, "/usr/share/systune/ui/main.ui", NULL)) {
     g_printerr("Failed to load UI file\n");
     return NULL;
   }

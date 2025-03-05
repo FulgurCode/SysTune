@@ -242,7 +242,7 @@ static void display_to_stack(GtkStack *stack) {
 
   const char *ui_paths[] = {
     "ui/display.ui",
-    "/usr/local/share/systune/ui/display.ui"
+    "/usr/share/systune/ui/display.ui"
   };
 
   GtkBuilder *display_builder = NULL;

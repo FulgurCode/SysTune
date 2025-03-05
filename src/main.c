@@ -12,7 +12,7 @@ static void load_css(void) {
 
   // Check if the first path exists, otherwise use the fallback
   if (stat(css_file_path, &buffer) != 0) {
-    css_file_path = "/usr/local/share/systune/styles/main.css";
+    css_file_path = "/usr/share/systune/styles/main.css";
   }
 
   gtk_css_provider_load_from_path(provider, css_file_path);

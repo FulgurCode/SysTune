@@ -114,7 +114,7 @@ static void audio_to_stack(GtkStack *stack) {
 
   const char *ui_paths[] = {
     "ui/audio.ui",
-    "/usr/local/share/systune/ui/audio.ui"
+    "/usr/share/systune/ui/audio.ui"
   };
 
   GtkBuilder *audio_builder = NULL;

@@ -295,7 +295,7 @@ void autostart_to_stack(GtkStack *stack) {
   ensure_hyprland_conf_entry();
 
   const char *ui_paths[] = {"ui/autostart_apps.ui",
-                            "/usr/local/share/systune/ui/autostart_apps.ui"};
+                            "/usr/share/systune/ui/autostart_apps.ui"};
 
   GtkBuilder *builder = NULL;
   size_t num_paths = sizeof(ui_paths) / sizeof(ui_paths[0]);

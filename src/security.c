@@ -79,7 +79,7 @@ static void security_to_stack(GtkStack *stack) {
   }
 
   const char *ui_paths[] = {"ui/security_settings.ui",
-                            "/usr/local/share/systune/ui/security_settings.ui"};
+                            "/usr/share/systune/ui/security_settings.ui"};
 
   GtkBuilder *security_builder = NULL;
   size_t num_paths = sizeof(ui_paths) / sizeof(ui_paths[0]);

@@ -375,7 +375,7 @@ void bluetooth_to_stack(GtkStack *stack) {
 
   const char *ui_paths[] = {
     "ui/bluetooth.ui",
-    "/usr/local/share/systune/ui/bluetooth.ui"
+    "/usr/share/systune/ui/bluetooth.ui"
   };
 
   GtkBuilder *bluetooth_builder = NULL;

@@ -7,9 +7,9 @@ SRCS = $(wildcard $(SRC_DIR)/*.c)
 # The output binary
 TARGET = bin/systune
 # Installation paths
-PREFIX = /usr/local
+PREFIX = /usr/
 BIN_DIR = $(PREFIX)/bin
-ICON_DIR = $(PREFIX)/share/icons
+ICON_DIR = $(PREFIX)/share/pixmaps
 DESKTOP_DIR = $(PREFIX)/share/applications
 STYLES_DIR = $(PREFIX)/share/systune/styles
 UI_DIR = $(PREFIX)/share/systune/ui

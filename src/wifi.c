@@ -505,7 +505,7 @@ static void wifi_to_stack(GtkStack *stack) {
   }
 
   const char *ui_paths[] = {"ui/wifi.ui",
-                            "/usr/local/share/systune/ui/wifi.ui"};
+                            "/usr/share/systune/ui/wifi.ui"};
 
   GtkBuilder *wifi_builder = NULL;
   size_t num_paths = sizeof(ui_paths) / sizeof(ui_paths[0]);
