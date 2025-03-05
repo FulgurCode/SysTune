@@ -1,16 +1,11 @@
 # Define variables for compiler and flags
 CC = gcc
-CFLAGS = $(shell pkg-config --cflags gtk4 libadwaita-1 )
+CFLAGS = $(shell pkg-config --cflags gtk4 libadwaita-1)
 LDFLAGS = $(shell pkg-config --libs gtk4 libadwaita-1)
 SRC_DIR = src
 SRCS = $(wildcard $(SRC_DIR)/*.c)
-
 # The output binary
 TARGET = bin/systune
-
-# The source file
-SRC = src/main.c
-
 # Installation paths
 PREFIX = /usr/local
 BIN_DIR = $(PREFIX)/bin
@@ -24,10 +19,9 @@ all: $(TARGET)
 build: $(TARGET)
 
 # Rule to build the target executable
-$(TARGET):
-	rm -f $(TARGET)
+$(TARGET): $(SRCS)
 	@mkdir -p $(dir $(TARGET))
-	$(CC) $(CFLAGS) -Iinclude -o $@ $^ $(LDFLAGS) $(SRCS)
+	$(CC) $(CFLAGS) -Iinclude -o $@ $(SRCS) $(LDFLAGS)
 
 run: all
 	@./bin/systune
@@ -58,3 +52,5 @@ uninstall:
 	@rm -f $(DESKTOP_DIR)/systune.desktop
 	@rm -rf /usr/local/share/systune
 	@echo "SysTune uninstalled successfully."
+
+.PHONY: all build run clean install uninstall
