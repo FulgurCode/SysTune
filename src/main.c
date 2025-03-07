@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <sys/stat.h>
 
+#ifndef G_APPLICATION_DEFAULT_FLAGS
+#define G_APPLICATION_DEFAULT_FLAGS 0
+#endif
+
 static void load_css(void) {
   GtkCssProvider *provider = gtk_css_provider_new();
   GdkDisplay *display = gdk_display_get_default();
