@@ -1,8 +1,8 @@
-#include "option/display.h"
-#include "command/command.h"
 #include <adwaita.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include "option/display.h"
+#include "command/command.h"
 
 GtkWidget *DisplayPage;
 
@@ -107,7 +107,9 @@ void get_available_resolutions_wayland(GtkStringList *sink_list) {
         DisplayList[count].refresh_rate = refresh_rate;
 
         // Append the resolution to the GTK string list
-        gtk_string_list_append(sink_list, DisplayList[count].resolution);
+        char res[50];
+        sprintf(res, "%s@%dHz", DisplayList[count].resolution, (int)DisplayList[count].refresh_rate);
+        gtk_string_list_append(sink_list,res);
 
         count++;
       }

@@ -24,7 +24,7 @@ $(TARGET): $(SRCS)
 	$(CC) $(CFLAGS) -Iinclude -o $@ $(SRCS) $(LDFLAGS)
 
 run: all
-	@./bin/systune
+	./bin/systune
 
 # Clean up generated files
 clean:
@@ -52,5 +52,3 @@ uninstall:
 	@rm -f $(DESKTOP_DIR)/systune.desktop
 	@rm -rf /usr/local/share/systune
 	@echo "SysTune uninstalled successfully."
-
-.PHONY: all build run clean install uninstall
