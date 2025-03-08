@@ -31,8 +31,6 @@ static void on_setting_selected(GtkListBox *listbox, GtkListBoxRow *row,
     change_panel_to_audio(user_data);
   } else if (g_strcmp0(name, "display_settings") == 0) {
     change_panel_to_display(user_data);
-  } else if (g_strcmp0(name, "connectivity_options") == 0) {
-    change_panel_to_connectivity(user_data);
   }else if (g_strcmp0(name, "wifi_options") == 0) {
     change_panel_to_wifi(user_data);
   }else if (g_strcmp0(name, "bluetooth_options") == 0) {
