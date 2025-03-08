@@ -137,8 +137,16 @@ static void on_res_change(AdwComboRow *combo, gpointer user_data) {
   g_strchomp(display_server);
 
   if (g_strcmp0(display_server, "wayland") == 0) {
-    snprintf(command, sizeof(command), "wlr-randr --output eDP-1 --mode %s",
-             res.resolution);
+    char *compositor = execute_command("echo $DESKTOP_SESSION");
+    char command[512];
+    g_strchomp(compositor);
+
+    if(g_strcmp0(compositor, "hyprland") == 0) {
+      snprintf(command, sizeof(command), "hyprctl keyword monitor ,%s@%d,0x0,1", res.resolution, (int)res.refresh_rate);
+    } else {
+        snprintf(command, sizeof(command), "wlr-randr --output eDP-1 --mode %s", res.resolution);
+    }
+
     g_print("command is %s  ", command);
   } else {
     g_print("%s", display_server);
