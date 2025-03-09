@@ -25,6 +25,16 @@ void change_panel_to_audio(gpointer user_data) {
   gtk_stack_set_visible_child_name(stack, "audio_page");
 }
 
+int current_sink_volume() {
+  char *result = execute_command("pactl get-sink-volume @DEFAULT_SINK@");
+  int volume;
+
+  char *line = strtok(result, "\n");
+  /* sscanf(line, "%*[^/]/%d%%%*[^/]/%d%%", &volume, &volume); */
+  sscanf(line, "%*[^/]/%d", &volume);
+  return volume;
+}
+
 void get_audio_sources(GtkStringList *sink_list) {
   char *output =
       execute_command("pactl list sinks | grep -E \"Sink #|Description:\" | "
@@ -144,6 +154,9 @@ static void audio_to_stack(GtkStack *stack) {
 
   GtkStringList *sink_list = GTK_STRING_LIST(gtk_builder_get_object(audio_builder, "audio_sink_list"));
   GtkStringList *sink_list_mic = GTK_STRING_LIST(gtk_builder_get_object(audio_builder, "audio_source_list"));
+
+  GtkAdjustment *adjustment = GTK_ADJUSTMENT(gtk_builder_get_object(audio_builder, "slider"));
+  gtk_adjustment_set_value(adjustment, current_sink_volume());
 
   get_audio_sources(sink_list);
   get_audio_sources_mic(sink_list_mic);
