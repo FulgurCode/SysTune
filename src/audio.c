@@ -35,6 +35,16 @@ int current_sink_volume() {
   return volume;
 }
 
+int current_source_volume() {
+  char *result = execute_command("pactl get-source-volume @DEFAULT_SOURCE@");
+  int volume;
+
+  char *line = strtok(result, "\n");
+  /* sscanf(line, "%*[^/]/%d%%%*[^/]/%d%%", &volume, &volume); */
+  sscanf(line, "%*[^/]/%d", &volume);
+  return volume;
+}
+
 void get_audio_sources(GtkStringList *sink_list) {
   char *output =
       execute_command("pactl list sinks | grep -E \"Sink #|Description:\" | "
@@ -157,6 +167,9 @@ static void audio_to_stack(GtkStack *stack) {
 
   GtkAdjustment *adjustment = GTK_ADJUSTMENT(gtk_builder_get_object(audio_builder, "slider"));
   gtk_adjustment_set_value(adjustment, current_sink_volume());
+
+  GtkAdjustment *adjustment_mic = GTK_ADJUSTMENT(gtk_builder_get_object(audio_builder, "slider_mic"));
+  gtk_adjustment_set_value(adjustment_mic, current_source_volume());
 
   get_audio_sources(sink_list);
   get_audio_sources_mic(sink_list_mic);
