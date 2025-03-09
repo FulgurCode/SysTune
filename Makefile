@@ -50,5 +50,5 @@ uninstall:
 	@rm -f $(BIN_DIR)/systune
 	@rm -f $(ICON_DIR)/systune.png
 	@rm -f $(DESKTOP_DIR)/systune.desktop
-	@rm -rf /usr/local/share/systune
+	@rm -rf /usr/share/systune
 	@echo "SysTune uninstalled successfully."
