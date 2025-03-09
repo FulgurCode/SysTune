@@ -15,10 +15,13 @@
     <child>
       <object class="GtkLabel">
         <property name="halign">start</property>
-        <property name="label">DISPLAY</property>
+        <property name="label">Display</property>
       </object>
     </child>
     <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title">Brightness</property>
+        <child>
       <object class="GtkScale" id="slider">
         <property name="adjustment">
           <object class="GtkAdjustment" id="adjustment_slider">
@@ -28,6 +31,8 @@
           </object>
         </property>
         <property name="orientation">horizontal</property>
+      </object>
+        </child>
       </object>
     </child>
 

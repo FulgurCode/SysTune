@@ -20,6 +20,25 @@ void change_panel_to_display(gpointer user_data) {
   display_to_stack(stack);
   gtk_stack_set_visible_child_name(stack, "display_page");
 }
+
+// Return the current brightness of the system
+int currrent_brightness() {
+  char *result = execute_command("brightnessctl");
+  int brightness;
+
+  char *line = strtok(result, "\n");
+  while (line != NULL) {
+    if (strstr(line, "Current brightness:") == NULL) {
+      g_print("1 null\n");
+      line = strtok(NULL, "\n");
+      continue;
+    }
+
+    sscanf(line, "%*[^(](%d)", &brightness);
+    return brightness;
+  }
+}
+
 // Function to parse the xrandr output and update the global DisplayList
 void get_available_resolutions_xorg(GtkStringList *sink_list) {
   char *result = execute_command("xrandr");
@@ -134,13 +153,13 @@ static void on_res_change(AdwComboRow *combo, gpointer user_data) {
   g_print("%s", res.resolution);
   g_print("%f", res.refresh_rate);
 
-  char *display_server = execute_command("echo $XDG_SESSION_TYPE");
   char command[512];
+
+  char *display_server = execute_command("echo $XDG_SESSION_TYPE");
   g_strchomp(display_server);
 
   if (g_strcmp0(display_server, "wayland") == 0) {
     char *compositor = execute_command("echo $DESKTOP_SESSION");
-    char command[512];
     g_strchomp(compositor);
 
     if(g_strcmp0(compositor, "hyprland") == 0) {
@@ -288,6 +307,8 @@ static void display_to_stack(GtkStack *stack) {
     g_object_unref(display_builder);
     return;
   }
+
+  gtk_adjustment_set_value(adjustment, currrent_brightness());
 
   GtkWidget *slider =
       GTK_WIDGET(gtk_builder_get_object(display_builder, "slider"));
