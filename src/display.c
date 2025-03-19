@@ -12,6 +12,7 @@ typedef struct {
 } DisplayMode;
 
 DisplayMode *DisplayList;
+DisplayMode CurrentDisplay;
 
 int count;
 
@@ -100,6 +101,12 @@ void get_available_resolutions_wayland(GtkStringList *sink_list) {
   // Parse the result line by line
   char *line = strtok(result, "\n");
   while (line != NULL) {
+    // Check if the line contains the current resolution (marked with '*')
+    if (strstr(line, "current") != NULL && strstr(line, "px,") != NULL && strstr(line, "Hz") != NULL) {
+      sscanf(line, " %31[0-9x] px, %f Hz", CurrentDisplay.resolution, &CurrentDisplay.refresh_rate);
+      line = strtok(NULL, "\n");
+      continue;
+    }
     // Check if the line contains a resolution (e.g., "1920x1200 px, 60.026001
     // Hz")
     if (strstr(line, "px,") != NULL && strstr(line, "Hz") != NULL) {
@@ -125,15 +132,21 @@ void get_available_resolutions_wayland(GtkStringList *sink_list) {
             '\0'; // Ensure null-termination
         DisplayList[count].refresh_rate = refresh_rate;
 
-        // Append the resolution to the GTK string list
-        char res[50];
-        sprintf(res, "%s@%dHz", DisplayList[count].resolution, (int)DisplayList[count].refresh_rate);
-        gtk_string_list_append(sink_list,res);
-
         count++;
       }
     }
     line = strtok(NULL, "\n");
+  }
+
+  char res[50];
+  sprintf(res, "%s@%dHz", CurrentDisplay.resolution, (int)CurrentDisplay.refresh_rate);
+  gtk_string_list_append(sink_list,res);
+
+  for (int i = 0; i < count; i++) {
+    // Append the resolution to the GTK string list
+    char res[50];
+    sprintf(res, "%s@%dHz", DisplayList[i].resolution, (int)DisplayList[i].refresh_rate);
+    gtk_string_list_append(sink_list,res);
   }
 
   free(result);
@@ -149,7 +162,13 @@ static void on_res_change(AdwComboRow *combo, gpointer user_data) {
     return;
   }
 
-  DisplayMode res = DisplayList[selected_index];
+  DisplayMode res;
+  if (selected_index == 0) {
+    res = CurrentDisplay;
+  } else {
+    res = DisplayList[selected_index - 1];
+  }
+
   g_print("%s", res.resolution);
   g_print("%f", res.refresh_rate);
 
@@ -165,7 +184,7 @@ static void on_res_change(AdwComboRow *combo, gpointer user_data) {
     if(g_strcmp0(compositor, "hyprland") == 0) {
       snprintf(command, sizeof(command), "hyprctl keyword monitor ,%s@%d,0x0,1", res.resolution, (int)res.refresh_rate);
     } else {
-        snprintf(command, sizeof(command), "wlr-randr --output eDP-1 --mode %s", res.resolution);
+      snprintf(command, sizeof(command), "wlr-randr --output eDP-1 --mode %s", res.resolution);
     }
 
     g_print("command is %s  ", command);
