@@ -51,6 +51,12 @@ void get_available_resolutions_xorg(GtkStringList *sink_list) {
   // Parse the result line by line
   char *line = strtok(result, "\n");
   while (line != NULL) {
+    // Check if the line contains the current resolution (marked with '*')
+    if (strstr(line, "*") != NULL && strstr(line, "x") != NULL && strstr(line, ".") != NULL) {
+      sscanf(line, " %31s %f", CurrentDisplay.resolution, &CurrentDisplay.refresh_rate);
+      line = strtok(NULL, "\n");
+      continue;
+    }
     // Check if the line contains a resolution (e.g., "1920x1080 60.00")
     if (strstr(line, "x") != NULL && strstr(line, ".") != NULL) {
       char resolution[32];
@@ -74,9 +80,6 @@ void get_available_resolutions_xorg(GtkStringList *sink_list) {
             '\0'; // Ensure null-termination
         DisplayList[count].refresh_rate = refresh_rate;
 
-        // Append the resolution to the GTK string list
-        gtk_string_list_append(sink_list, DisplayList[count].resolution);
-
         count++;
       }
     }
@@ -86,6 +89,17 @@ void get_available_resolutions_xorg(GtkStringList *sink_list) {
   // Debug: Print the first resolution
   if (count > 0) {
     g_print("res-%s\n", DisplayList[0].resolution);
+  }
+
+  char res[50];
+  sprintf(res, "%s@%dHz", CurrentDisplay.resolution, (int)CurrentDisplay.refresh_rate);
+  gtk_string_list_append(sink_list,res);
+
+  for (int i = 0; i < count; i++) {
+    // Append the resolution to the GTK string list
+    char res[50];
+    sprintf(res, "%s@%dHz", DisplayList[i].resolution, (int)DisplayList[i].refresh_rate);
+    gtk_string_list_append(sink_list,res);
   }
 
   free(result);
