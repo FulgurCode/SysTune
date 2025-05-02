@@ -1,8 +1,8 @@
-#include "option/audio.h"
-#include "command/command.h"
 #include <adwaita.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include "option/audio.h"
+#include "command/command.h"
 
 #define MAX_SINKS 16
 #define MAX_DESC_LENGTH 256
@@ -68,20 +68,20 @@ void get_audio_sources(GtkStringList *sink_list) {
 
 void get_audio_sources_mic(GtkStringList *source_list) {
   char *output =
-      execute_command("pactl list sources | grep -E \"Description: .*Microphone\" | sed 's/Description: //'");
+      execute_command("pactl list sources | grep -E \"Source #|Description:\" | "
+                      "awk '/Source #/{idx=$2} /Description:/{print idx, $0}'");
+
   sources = malloc(15 * sizeof(SinkInfo));
   
   char *line = strtok(output, "\n");
   while (line) {
     SinkInfo s;
     // Parse the line containing index and description
-    sscanf(line, "%d Description: %[^\n]", &s.index, &s.description);
+    sscanf(line, "#%d Description: %[^\n]", &s.index, &s.description);
     gtk_string_list_append(source_list, s.description);
     line = strtok(NULL, "\n");
     sources[source_count] = s;
     source_count++;
-    
-    g_print("Found source: %s\n", s.description);
   }
 }
 
@@ -124,6 +124,25 @@ void on_output_device_changed(AdwComboRow *combo, gpointer user_data) {
 
   char command[512];
   sprintf(command, "pactl set-default-sink %d", index);
+  execute_command(command);
+}
+
+// Callback function when output device selection changes
+void on_input_device_changed(AdwComboRow *combo, gpointer user_data) {
+  GtkStringList *sink_list = GTK_STRING_LIST(adw_combo_row_get_model(combo));
+  guint selected_index = adw_combo_row_get_selected(combo);
+
+  if (selected_index == GTK_INVALID_LIST_POSITION) {
+    g_print("No device selected.\n");
+    return;
+  }
+
+  int index = sources[selected_index].index;
+  g_print("index is %d", index);
+  g_print("source is %s", sources[selected_index].description);
+
+  char command[512];
+  sprintf(command, "pactl set-default-source %d", index);
   execute_command(command);
 }
 
@@ -179,7 +198,7 @@ static void audio_to_stack(GtkStack *stack) {
 
   // Connect the selection change event
   g_signal_connect(combo, "notify::selected", G_CALLBACK(on_output_device_changed), NULL);
-  g_signal_connect(combo_input, "notify::selected", G_CALLBACK(on_output_device_changed), NULL);
+  g_signal_connect(combo_input, "notify::selected", G_CALLBACK(on_input_device_changed), NULL);
 
   // Retrieve the GtkScale from the builder for speaker
   GtkWidget *slider = GTK_WIDGET(gtk_builder_get_object(audio_builder, "adjustment_slider"));
