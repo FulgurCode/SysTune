@@ -309,6 +309,48 @@ static gboolean get_wifi_status(void) {
   return wifi_enabled;
 }
 
+static void get_thread_wifi_status(GTask *task, gpointer source_obj,
+                          gpointer task_data, GCancellable *cancellable) {
+  gchar *command = "nmcli radio wifi";
+  gchar *output = NULL;
+  GError *error = NULL;
+  gint exit_status;
+
+  g_spawn_command_line_sync(command, &output, NULL, &exit_status, &error);
+
+  if (error) {
+    g_printerr("Failed to get Wi-Fi status: %s\n", error->message);
+    g_error_free(error);
+    g_task_return_boolean(task, false);
+    return;
+  }
+
+  gboolean wifi_enabled = (g_strstr_len(output, -1, "enabled") != NULL);
+  g_free(output);
+  g_task_return_boolean(task, wifi_enabled);
+}
+
+
+static void change_wifi_status(GObject *source, GAsyncResult *res, gpointer user_data) {
+  GtkWidget *wifi_switch = GTK_WIDGET(user_data);
+  g_autoptr(GError) error = NULL;
+  gboolean status = g_task_propagate_boolean(G_TASK(res), &error);
+
+  if (error) {
+    g_printerr("Error getting Wi-Fi status: %s\n", error->message);
+    g_error_free(error);
+    return;
+  }
+
+  g_object_set(wifi_switch, "active", status, NULL);
+}
+
+static void set_wifi_initial_state(GtkWidget *window, gpointer data) {
+  GtkWidget *wifi_switch = GTK_WIDGET(data);
+  GTask *task = g_task_new(NULL, NULL, change_wifi_status, wifi_switch);
+  g_task_run_in_thread(task, get_thread_wifi_status);
+}
+
 static void set_wifi_switch_state(GtkWidget *wifi_switch, gboolean is_active) {
   g_object_set(wifi_switch, "active", is_active, NULL);
 }
@@ -532,6 +574,9 @@ static void wifi_to_stack(GtkStack *stack) {
     return;
   }
 
+  GtkWidget *window = GTK_WIDGET(gtk_builder_get_object(wifi_builder, "window"));
+  g_signal_connect(window, "show", G_CALLBACK(set_wifi_initial_state), NULL);
+
   // Add page to stack immediately
   gtk_stack_add_named(stack, WifiPage, "wifi_page");
   gtk_widget_set_visible(WifiPage, TRUE);
@@ -546,8 +591,6 @@ static void wifi_to_stack(GtkStack *stack) {
   if (init_data->wifi_switch != NULL) {
     g_signal_connect(init_data->wifi_switch, "notify::active",
                      G_CALLBACK(on_wifi_switch_active), NULL);
-    // Set initial state immediately
-    set_wifi_switch_state(init_data->wifi_switch, get_wifi_status());
   }
 
   init_data->wifi_list =
