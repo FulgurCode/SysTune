@@ -48,6 +48,20 @@ SysTune is a lightweight and efficient GTK-based system settings manager built i
    make run
    ```
 
+### Install
+
+Run make install script it will install Systune system wide
+   ```bash
+    sudo make install
+    ```
+
+### Uninstall
+
+To uninstall Systune just run the make uninstall script
+    ```bash
+    sudo make uninstall
+    ```
+
 ## Contributing
 
 Contributions are welcome! To contribute to this project:
@@ -115,6 +129,3 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #### Shreyas S K
 - **Email:** [shreyassk.dev@gmail.com](mailto:shreyassk.dev@gmail.com)
 - **GitHub:** [Shreyas S K](https://github.com/shreyasskdev)
-
-#### Adarsh S K
-- **GitHub:** [natejacobs1](https://github.com/natejacobs1)
